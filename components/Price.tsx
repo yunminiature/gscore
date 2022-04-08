@@ -58,7 +58,6 @@ const Price:FC = () => {
           </Link>
         </PriceDescription>
       </PriceSection>
-      <hr/>
     </>
   )
 }

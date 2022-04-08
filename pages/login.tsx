@@ -1,6 +1,8 @@
-const Login = () => {
+import {FC} from "react";
+import LoginForm from "../components/LoginForm";
+const Login:FC = () => {
   return(
-    <h1>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h1>
+    <LoginForm/>
   )
 }
 

@@ -7,11 +7,12 @@ const Footer:FC = () => {
 
   return(
     <LayoutFooter>
+      <hr/>
       <FooterColumn>
         <Image src="/Logo.svg" width="170px" height="42px" alt="gscore"/>
         <FooterDescription>Ut enim аd minim veniam quis nostrud exercitation еа commodo</FooterDescription>
       </FooterColumn>
-      <hr/>
+      <FooterHr/>
       <FooterBottom>
         <FooterCopyright>
           Copyright 2022 GScore | Аll Rights Reserved |
@@ -34,9 +35,7 @@ const Footer:FC = () => {
 }
 
 const LayoutFooter = styled.footer`
-  hr{
-    margin: 0 80px;
-  }
+  margin: 50px 0 0 0;
 `
 const FooterColumn = styled.div`
   padding: 60px 80px;
@@ -74,6 +73,9 @@ const FooterSocial = styled.ul`
       margin: 0;
     }
   }
+`
+const FooterHr = styled.hr`
+  margin: 0 80px;
 `
 
 export default Footer
