@@ -1,41 +1,35 @@
-import {FC} from "react"
+import {ButtonHTMLAttributes, FC} from "react"
 import styled from 'styled-components';
+import {colors} from "../../styles/colors";
 
-interface DefaultButtonProps{
-  type: "button" | "submit" | "reset";
+interface DefaultButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
   theme: string;
-  onClick?: () => void;
-  value?: string;
 }
 
 const DefaultButton:FC<DefaultButtonProps> = ({type, theme, onClick, value}) => {
-
-  console.log(theme)
 
   const styleTheme = () => {
     switch (theme){
       case "primary":
         return {
-          color: "#fff",
-          background: "#fc5842",
-          hover: "#dc2b2b",
-          hovertext:"#fff",
+          color: colors.neutral["100"],
+          background: colors.accent.primary,
+          hover: colors.red["400"],
+          hovertext: colors.neutral["100"],
           focus: "4px solid rgba(0, 0, 0, .5)",
           disabled: "0.6"
         };
       case "secondary":
         return {
-          color: "#fc5842",
-          background: "#fff",
-          hover: "#fff",
-          hovertext:"#dc2b2b",
+          color: colors.accent.primary,
+          background: colors.neutral["100"],
+          hover: colors.neutral["100"],
+          hovertext: colors.red["400"],
           focus: "4px solid rgba(0, 0, 0, .4)",
           disabled: "0.6"
         }
     }
   }
-
-  console.log(styleTheme())
 
   return(
     <Button type={type} theme={styleTheme()} onClick={onClick}>{value}</Button>
@@ -43,7 +37,7 @@ const DefaultButton:FC<DefaultButtonProps> = ({type, theme, onClick, value}) => 
 }
 
 const Button = styled.button`
-  padding: 22px 17px;
+  padding: 17px;
   border: 4px solid ${props => props.theme.background};
   border-radius: 4px;
   line-height: 18px;

@@ -1,15 +1,23 @@
 import {FC} from "react"
+import {useRouter} from "next/router";
 import styled from "styled-components"
+import {colors} from "../../styles/colors";
 import Image from "next/image";
+import DefaultButton from "../../ui/DefaultButton";
 
 interface PriceCardProps{
+  id: number
   title: string,
   description: string,
   price: number,
   properties: string[]
 }
 
-const PriceCard:FC<PriceCardProps> = ({title, description, price, properties}) =>{
+const PriceCard:FC<PriceCardProps> = ({id, title, description, price, properties}) =>{
+  const router = useRouter();
+  const handleClick = () => {
+    router.push("/login")
+  }
   return(
     <Card>
       <CardPrice>${price}</CardPrice>
@@ -21,20 +29,21 @@ const PriceCard:FC<PriceCardProps> = ({title, description, price, properties}) =
           properties.map((property: string) => {
             return (
               <CardProperty key={property}>
-                <Image src="/CheckCircle.svg" width="25px" height="25px" alt="facebook"/>
+                <Image src="/СheckIcon.svg" width="25px" height="25px" alt="facebook"/>
                 <p>{property}</p>
               </CardProperty>)
           })
         }
       </CardProperties>
-      <CardButton>Get Gscore</CardButton>
+      <DefaultButton type="button" theme="secondary" onClick={handleClick} value="Get Gscore"/>
     </Card>
   )
 }
 
 const Card = styled.li`
   width: 32%;
-  padding: 40px;
+  min-width: 290px;
+  padding: 40px 50px;
   border-radius: 12px;
   background-color: #272727;
 
@@ -43,26 +52,48 @@ const Card = styled.li`
   }
 
   &:nth-child(2){
-    background-color: #fc5842;
+    background-color: ${colors.accent.primary};
     hr{
-      border-top: 1px solid #fff;
+      border-top: 1px solid ${colors.neutral["100"]};
     }
-    CardDescription{
-      color: #fff;
+    button{
+      color: ${colors.accent.primary};
     }
   }
   
   &:nth-child(2n+1){
     margin-top: 50px;
     hr{
-      border-top: 1px solid #969696;
+      border-top: 1px solid ${colors.neutral["500"]};
     }
-    CardDescription{
-      color: #c7c7c7;
+    p{
+      color: ${colors.neutral["400"]};
+    }
+    button{
+      color: #181818;
     }
   }
+  
+  button{
+    width: 100%;
+    margin: 20px 0 0 0;
+  }
+
+  @media (max-width: 1080px) {
+    width: 80%;
+    margin: 0 auto 40px;
+
+    &:nth-child(2n+1) {
+      margin-top: 0;
+    }
+  }
+  @media (max-width: 426px) {
+    width: 100%;
+    margin: 0 0 15px;
+  }
 `
-const CardPrice = styled.p`
+const CardPrice = styled.h3`
+  //font DM Sans
   width: 100%;
   margin: 0 0 10px 0;
   text-align: center;
@@ -100,16 +131,5 @@ const CardProperty = styled.li`
     font-weight: 500;
   }
 `
-const CardButton = styled.button`
-  width: 100%;
-  padding: 25px;
-  text-align: center;
-  line-height: 20px;
-  font-size: 18px;
-  font-weight: 700;
-  border: 0;
-  border-radius: 6px;
-  background-color: #fff;
-  color: #181818;
-`
+
 export default PriceCard

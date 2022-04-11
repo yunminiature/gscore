@@ -1,4 +1,4 @@
-import Price from "../components/Price";
+import Price from "../components/Price/Price";
 
 const Home = () => {
   return (

@@ -11,7 +11,15 @@ const Header:FC = () => {
 }
 
 const HeaderLayout = styled.div`
-  padding: 40px 80px;
+  width: 100%;
+  padding: 32px 0;
+  @media (max-width: 426px) {
+    padding: 25px 0 32px;
+    //Image{
+    //  width: 130px;
+    //  height: 32px;
+    //}
+  }
 `
 
 export default Header

@@ -7,18 +7,17 @@ const Footer:FC = () => {
 
   return(
     <LayoutFooter>
-      <hr/>
       <FooterColumn>
         <Image src="/Logo.svg" width="170px" height="42px" alt="gscore"/>
         <FooterDescription>Ut enim аd minim veniam quis nostrud exercitation еа commodo</FooterDescription>
       </FooterColumn>
-      <FooterHr/>
+      <hr/>
       <FooterBottom>
         <FooterCopyright>
-          Copyright 2022 GScore | Аll Rights Reserved |
+          Copyright 2022 GScore | Аll Rights Reserved |&nbsp;
           <Link href="/">
             <a>Cookies</a>
-          </Link> |
+          </Link> |&nbsp;
           <Link href="/">
             <a>Privacy Policy</a>
           </Link>
@@ -35,28 +34,41 @@ const Footer:FC = () => {
 }
 
 const LayoutFooter = styled.footer`
-  margin: 50px 0 0 0;
 `
 const FooterColumn = styled.div`
-  padding: 60px 80px;
-  width: 30%;
+  max-width: 320px;
+  padding: 60px 0;
+  @media (max-width: 426px) {
+    padding: 40px 0;
+  }
 `
 const FooterDescription = styled.p`
+  //font inter
   margin: 20px 0 0;
   line-height: 30px;
   font-size: 18px;
   font-weight: 500;
+  @media (max-width: 426px) {
+    font-weight: 400;
+  }
 `
 const FooterBottom = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 40px 80px;
+  flex-wrap: wrap;
+  padding: 40px 0;
   line-height: 30px;
   font-size: 18px;
   font-weight: 500;
+  @media (max-width: 426px) {
+    justify-content: center;
+    font-weight: 400;
+  }
 `
 const FooterCopyright = styled.div`
+  //font inter
+  text-align: center;
   a{
     border-bottom: 1px solid #fff;
   }
@@ -73,9 +85,10 @@ const FooterSocial = styled.ul`
       margin: 0;
     }
   }
-`
-const FooterHr = styled.hr`
-  margin: 0 80px;
+
+  @media (max-width: 426px) {
+    margin: 25px 0 0 0;
+  }
 `
 
 export default Footer
