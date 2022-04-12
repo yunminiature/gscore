@@ -2,6 +2,8 @@ import {FC} from "react"
 import {useRouter} from "next/router";
 import styled from "styled-components"
 import {colors} from "../../styles/colors";
+import {useAppDispatch} from "../../store";
+import {addPackage} from "../../store/CurrentUser/actions";
 import Image from "next/image";
 import DefaultButton from "../../ui/DefaultButton";
 
@@ -14,10 +16,14 @@ interface PriceCardProps{
 }
 
 const PriceCard:FC<PriceCardProps> = ({id, title, description, price, properties}) =>{
+
+  const dispatch = useAppDispatch()
   const router = useRouter();
   const handleClick = () => {
+    dispatch(addPackage(id))
     router.push("/login")
   }
+
   return(
     <Card>
       <CardPrice>${price}</CardPrice>
@@ -93,12 +99,12 @@ const Card = styled.li`
   }
 `
 const CardPrice = styled.h3`
-  //font DM Sans
   width: 100%;
   margin: 0 0 10px 0;
   text-align: center;
   line-height: 66px;
   font-size: 54px;
+  font-family: DMSans;
   font-weight: 700;
 `
 const CardTitle = styled.h2`

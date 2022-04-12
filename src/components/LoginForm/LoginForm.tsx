@@ -3,8 +3,12 @@ import styled from 'styled-components';
 import {colors} from "../../styles/colors";
 import {useForm, Controller, SubmitHandler} from 'react-hook-form';
 import {useAppSelector, useAppDispatch} from "../../store";
+import {selectCurrentUser} from "../../store/CurrentUser/selectors";
 import {selectUsers} from "../../store/Users/selectors";
+import {selectPrice} from "../../store/Price/selectors";
+import {addCurrentUser} from "../../store/CurrentUser/actions";
 import {addUser} from "../../store/Users/actions";
+import Image from "next/image";
 import DefaultInput from "../../ui/DefaultInput/DefaultInput";
 import DefaultButton from "../../ui/DefaultButton/DefaultButton";
 
@@ -17,18 +21,23 @@ type LogInInputs = Omit<CreateAccountInputs, "userName">;
 
 const LoginForm:FC = () => {
 
-  const users = useAppSelector(selectUsers)
-  const dispatch = useAppDispatch()
+  const currentUser = useAppSelector(selectCurrentUser);
+  const users = useAppSelector(selectUsers);
+  const price = useAppSelector(selectPrice);
+  const dispatch = useAppDispatch();
 
   const [formState, setFormState] = useState("createAccount")
   const editFormState = (state:"createAccount"|"logIn"|"checkout") => {
     setFormState(state)
   }
 
+  const [userCheck, setUserCheck] = useState<boolean|undefined>(undefined)
+  console.log(userCheck)
+
   const {
     handleSubmit: handleSubmitCreate,
     control: controlCreate,
-    formState: {errors, isValid},
+    formState: {errors: errorsCreate, isValid: isValidCreate},
   } = useForm<CreateAccountInputs>({
     defaultValues: {
     userName: "",
@@ -50,14 +59,23 @@ const LoginForm:FC = () => {
 
   const {
     handleSubmit: handleSubmitLogIn,
-    control: controlLogIn
-  } = useForm<LogInInputs>({defaultValues: {
+    control: controlLogIn,
+    formState: {errors: errorsLogIn, isValid: isValidLogIn},
+  } = useForm<LogInInputs>({
+    defaultValues: {
       email: "",
       password:""
-    }})
+    },
+    mode: "onBlur"
+  })
   const onSubmitLogIn: SubmitHandler<LogInInputs> = data =>{
-    const userCheck = users.find(user => (user.email === data.email && user.password === data.password));
-    (userCheck!==undefined) && editFormState("checkout")
+    const check = users.find(user => (user.email === data.email && user.password === data.password));
+    setUserCheck(check!==undefined);
+    if (check!==undefined) {
+      dispatch(addCurrentUser(check.id))
+      editFormState("checkout")
+    }
+    console.log(userCheck)
   }
 
 
@@ -81,8 +99,8 @@ const LoginForm:FC = () => {
               placeholder="Username"
               type="text"
               value={value}
-              valid={(value !== "") ? "valid" : (errors?.userName) ? "invalid" : "undefined"}
-              invalidText={errors?.userName?.message}
+              valid={(value !== "") ? "valid" : (errorsCreate?.userName) ? "invalid" : "undefined"}
+              invalidText={errorsCreate?.userName?.message}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 onChange(e.target.value);
               }}
@@ -100,10 +118,10 @@ const LoginForm:FC = () => {
             <DefaultInput
               label="Email"
               placeholder="Email"
-              type="text"
+              type="email"
               value={value}
-              valid={(value !== "") ? "valid" : (errors?.email) ? "invalid" : "undefined"}
-              invalidText={errors?.email?.message}
+              valid={(value !== "") ? "valid" : (errorsCreate?.email) ? "invalid" : "undefined"}
+              invalidText={errorsCreate?.email?.message}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 onChange(e.target.value);
               }}
@@ -123,15 +141,15 @@ const LoginForm:FC = () => {
               placeholder="Password"
               type="password"
               value={value}
-              valid={(value !== "") ? "valid" : (errors?.password) ? "invalid" : "undefined"}
-              invalidText={errors?.password?.message}
+              valid={(value !== "") ? "valid" : (errorsCreate?.password) ? "invalid" : "undefined"}
+              invalidText={errorsCreate?.password?.message}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 onChange(e.target.value);
               }}
             />
           )}
         />
-        <DefaultButton type="submit" theme="primary" value="Send password" disabled={!isValid}/>
+        <DefaultButton type="submit" theme="primary" value="Send password" disabled={!isValidCreate}/>
       </form>
       <FormFooter>
         <p>Have an account?</p>
@@ -156,10 +174,10 @@ const LoginForm:FC = () => {
             <DefaultInput
               label="Email"
               placeholder="Email"
-              type="text"
+              type="email"
               value={value}
-              valid={(value !== "") ? "valid" : (errors?.email) ? "invalid" : "undefined"}
-              invalidText={errors?.email?.message}
+              valid={(value !== "" && userCheck) ? "valid" : (errorsCreate?.email || (userCheck===false)) ? "invalid" : "undefined"}
+              invalidText={errorsLogIn?.email?.message}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 onChange(e.target.value);
               }}
@@ -179,8 +197,8 @@ const LoginForm:FC = () => {
               placeholder="Password"
               type="password"
               value={value}
-              valid={(value !== "") ? "valid" : (errors?.password) ? "invalid" : "undefined"}
-              invalidText={errors?.password?.message}
+              valid={(value !== "" && userCheck) ? "valid" : (errorsCreate?.password || (userCheck===false)) ? "invalid" : "undefined"}
+              invalidText={errorsLogIn?.password?.message ? errorsLogIn.password.message : (userCheck===false) ? "Неверные логин или пароль" : ""}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 onChange(e.target.value);
               }}
@@ -195,7 +213,6 @@ const LoginForm:FC = () => {
     <>
       <FormHeader>
         <h1>Checkout</h1>
-        <p>We have sent you a payment receipt by e-mail and a link to download the plugin with a license key.</p>
       </FormHeader>
       <Checkout>
         <CheckoutHeader>
@@ -203,10 +220,14 @@ const LoginForm:FC = () => {
           <h3>Price</h3>
         </CheckoutHeader>
         <CheckoutItem>
-          <p>Single site license</p>
-          <p>$77</p>
+          <p>{price.find(item => (item.id === currentUser.currentUser.packageId))?.title}</p>
+          <p>$ {price.find(item => (item.id === currentUser.currentUser.packageId))?.price} <Image src="/Basket.svg" width="20px" height="20px" alt="bascet"/></p>
         </CheckoutItem>
       </Checkout>
+      <TotalPrice>
+        <h3>Total</h3>
+        <p>$ {price.find(item => (item.id === currentUser.currentUser.packageId))?.price}</p>
+      </TotalPrice>
       <DefaultButton type="button" theme="primary" value="Purchase"/>
     </>
 
@@ -307,7 +328,7 @@ const FormFooter = styled.div`
 
 const Checkout = styled.div`
   margin: 0 0 25px;
-  padding: 50px 30px;
+  padding: 48px 30px;
   border-radius: 12px;
   background-color: #272727;
 `
@@ -317,6 +338,7 @@ const CheckoutHeader = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid ${colors.neutral["700"]};
   h3{
+    min-width: 100px;
     margin: 0;
     line-height: 34px;
     font-size: 24px;
@@ -324,14 +346,34 @@ const CheckoutHeader = styled.div`
   }
 `
 const CheckoutItem = styled.div`
-  padding: 32px 0 0;
+  padding: 30px 0 0;
   display: flex;
   justify-content: space-between;
   p{
+    min-width: 100px;
     margin: 0;
     line-height: 38px;
     font-size: 24px;
     font-weight: 400;
+  }
+`
+const TotalPrice = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 25px 0 20px;
+  
+  h3{
+    margin: 0;
+    line-height: 40px;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  p{
+    margin: 0;
+    line-height: 40px;
+    font-size: 28px;
+    font-weight: 700;
   }
 `
 

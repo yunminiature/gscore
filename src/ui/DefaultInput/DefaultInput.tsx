@@ -53,7 +53,7 @@ const Label = styled.label`
 const Input = styled.input`
   width: 100%;
   margin: 0 0 20px 0;
-  padding: 25px;
+  padding: 25px 45px 25px 25px;
   border: 1px solid ${props => props.theme.color};
   border-radius: 6px;
   line-height: 18px;

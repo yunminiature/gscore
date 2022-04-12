@@ -43,10 +43,10 @@ const FooterColumn = styled.div`
   }
 `
 const FooterDescription = styled.p`
-  //font inter
   margin: 20px 0 0;
   line-height: 30px;
   font-size: 18px;
+  font-family: Inter;
   font-weight: 500;
   @media (max-width: 426px) {
     font-weight: 400;
@@ -67,8 +67,8 @@ const FooterBottom = styled.div`
   }
 `
 const FooterCopyright = styled.div`
-  //font inter
   text-align: center;
+  font-family: Inter;
   a{
     border-bottom: 1px solid #fff;
   }

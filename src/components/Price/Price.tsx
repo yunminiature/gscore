@@ -6,6 +6,8 @@ import PriceCard from "../PriceCard/PriceCard";
 import {useAppSelector} from '../../store/index'
 import {selectPrice} from '../../store/Price/selectors'
 
+
+
 interface Card{
   id: number,
   title: string,
@@ -15,6 +17,7 @@ interface Card{
 }
 
 const Price:FC = () => {
+
   const price = useAppSelector(selectPrice)
 
   return(

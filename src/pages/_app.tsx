@@ -7,13 +7,14 @@ import store, {persistor} from '../store';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Layout>
           <Component {...pageProps} />
-        </PersistGate>
-      </Provider>
-    </Layout>
+        </Layout>
+      </PersistGate>
+    </Provider>
+
   )
 }
 

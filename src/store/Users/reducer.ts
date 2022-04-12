@@ -5,7 +5,7 @@ import {addUser} from './actions'
 const initialState: UsersType = {
   users: [
     {
-      id: 0,
+      id: 1,
       userName: "noname",
       email: "noname@noname.com",
       password: "12345",
