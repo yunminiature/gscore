@@ -3,7 +3,7 @@ import {useRouter} from "next/router";
 import styled from "styled-components"
 import {colors} from "../../styles/colors";
 import {useAppDispatch} from "../../store";
-import {addPackage} from "../../store/CurrentUser/actions";
+import {addPackage} from "../../store/User/actions";
 import Image from "next/image";
 import DefaultButton from "../../ui/DefaultButton";
 
@@ -21,7 +21,13 @@ const PriceCard:FC<PriceCardProps> = ({id, title, description, price, properties
   const router = useRouter();
   const handleClick = () => {
     dispatch(addPackage(id))
-    router.push("/login")
+    router.push (
+      { pathname: '/start',
+        query: {
+          data: JSON.stringify(id)
+        }
+      }
+    )
   }
 
   return(

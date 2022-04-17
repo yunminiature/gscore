@@ -1,12 +1,10 @@
-import {FC} from "react"
+import {FC, useState} from "react"
 import styled from "styled-components"
 import {colors} from "../../styles/colors";
 import Link from "next/link";
 import PriceCard from "../PriceCard/PriceCard";
 import {useAppSelector} from '../../store/index'
 import {selectPrice} from '../../store/Price/selectors'
-
-
 
 interface Card{
   id: number,
@@ -18,7 +16,7 @@ interface Card{
 
 const Price:FC = () => {
 
-  const price = useAppSelector(selectPrice)
+  const price = useAppSelector(selectPrice);
 
   return(
 

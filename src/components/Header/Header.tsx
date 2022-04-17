@@ -1,30 +1,28 @@
 import {FC, useState} from "react"
 import styled from "styled-components"
 import {useAppSelector} from '../../store/index'
-import {selectCurrentUser} from "../../store/CurrentUser/selectors";
-import {selectUsers} from "../../store/Users/selectors";
+import {selectUser} from "../../store/User/selectors";
 import Image from "next/image";
 import Link from "next/link";
 
 
 const Header:FC = () => {
 
-  const currentUser = useAppSelector(selectCurrentUser)
-  const users = useAppSelector(selectUsers)
+  const user = useAppSelector(selectUser)
 
   const [navPopUp, setNavPopUp] = useState(false)
   const toggleNavPopUp = () => {
     setNavPopUp(!navPopUp)
   }
 
-  const navBar = (currentUser.currentUser.id !== 0)
+  const navBar = (user.token !== undefined)
     && <NavBar>
         <Link href="/">
           <a>My subscriptions</a>
         </Link>
         <NavPopUp>
           <PopUpUser onClick={toggleNavPopUp}>
-            <p>{users.find(user => (user.id === currentUser.currentUser.id))?.userName}</p>
+            <p>{user.user.username}</p>
             {(navPopUp) ? <Image src="/Up.svg" width="14px" height="7px" alt="open popup"/> : <Image src="/Down.svg" width="14px" height="7px" alt="open popup"/>}
           </PopUpUser>
           {(navPopUp) &&

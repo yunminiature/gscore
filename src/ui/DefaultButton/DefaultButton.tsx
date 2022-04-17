@@ -6,7 +6,7 @@ interface DefaultButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
   theme: string;
 }
 
-const DefaultButton:FC<DefaultButtonProps> = ({type, theme, onClick, value}) => {
+const DefaultButton:FC<DefaultButtonProps> = ({type, theme, onClick, disabled, value}) => {
 
   const styleTheme = () => {
     switch (theme){
@@ -32,7 +32,7 @@ const DefaultButton:FC<DefaultButtonProps> = ({type, theme, onClick, value}) => 
   }
 
   return(
-    <Button type={type} theme={styleTheme()} onClick={onClick}>{value}</Button>
+    <Button type={type} theme={styleTheme()} onClick={onClick} disabled={disabled}>{value}</Button>
   )
 }
 
@@ -46,7 +46,7 @@ const Button = styled.button`
   color: ${props => props.theme.color};
   background-color: ${props => props.theme.background};
 
-  &:hover{
+  &:active:hover{
     border: 4px solid ${props => props.theme.hover};
     color: ${props => props.theme.hovertext};
     background-color: ${props => props.theme.hover};
@@ -56,10 +56,10 @@ const Button = styled.button`
     padding: 22px 17px;
     border: ${props => props.theme.focus};
   }
-  &disabled{
+  &:disabled{
+    cursor: default;
     opacity: ${props => props.theme.disabled};
   }
-  
 `
 
 export default DefaultButton

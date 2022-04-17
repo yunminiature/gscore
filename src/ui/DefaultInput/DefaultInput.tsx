@@ -82,7 +82,7 @@ const LabelText = styled.p`
   display: none;
 `
 const InvalidMessage = styled.p`
-  margin: 0 0 10px;
+  margin: 0 0 15px;
   line-height: 16px;
   font-size: 14px;
   font-weight: 400;
