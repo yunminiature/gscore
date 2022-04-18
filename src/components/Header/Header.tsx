@@ -46,12 +46,19 @@ const Header:FC = () => {
 
   return(
     <HeaderLayout>
-      <Image src="/Logo.svg" width="170px" height="42px" alt="gscore"/>
+      <Link href="/">
+        <LogoLink><Image src="/Logo.svg" width="170px" height="42px" alt="gscore"/></LogoLink>
+      </Link>
       {navBar}
     </HeaderLayout>
   )
 }
 
+const LogoLink = styled.a`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`
 const HeaderLayout = styled.div`
   display: flex;
   justify-content: space-between;

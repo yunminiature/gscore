@@ -1,25 +1,29 @@
-import {FC, useState} from "react"
+import {FC, useEffect, useState} from "react"
 import styled from "styled-components"
 import {colors} from "../../styles/colors";
 import Link from "next/link";
 import PriceCard from "../PriceCard/PriceCard";
-import {useAppSelector} from '../../store/index'
-import {selectPrice} from '../../store/Price/selectors'
-
-interface Card{
-  id: number,
-  title: string,
-  description: string,
-  price: number,
-  properties: string[]
-}
+import {useAppDispatch, useAppSelector} from '../../store/index'
+import {getProducts} from "../../services/Products";
+import {addProducts} from "../../store/Products/actions";
+import {selectProducts} from "../../store/Products/selectors";
+import {Product} from "../../store/Products/types";
 
 const Price:FC = () => {
 
-  const price = useAppSelector(selectPrice);
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    getProducts()
+      .then((response) => {
+        dispatch(addProducts(response.data))
+      })
+  }, [])
+
+  const products = useAppSelector(selectProducts)
+  console.log(products)
 
   return(
-
     <>
       <PriceSection>
         <PriceTitle>
@@ -28,8 +32,8 @@ const Price:FC = () => {
 
         <PriceList>
           {
-            price.map((priceCard:Card) => {
-              return <PriceCard key={priceCard.id} {...priceCard}/>
+            products.map((product:Product) => {
+              return <PriceCard key={product.id} {...product}/>
             })
           }
         </PriceList>
@@ -84,5 +88,4 @@ const PriceDescription = styled.p`
     color: ${colors.accent.primary};
   }
 `
-
 export default Price

@@ -6,46 +6,40 @@ import {useAppDispatch} from "../../store";
 import {addPackage} from "../../store/User/actions";
 import Image from "next/image";
 import DefaultButton from "../../ui/DefaultButton";
+import {Product} from "../../store/Products/types";
 
-interface PriceCardProps{
-  id: number
-  title: string,
-  description: string,
-  price: number,
-  properties: string[]
-}
-
-const PriceCard:FC<PriceCardProps> = ({id, title, description, price, properties}) =>{
+const PriceCard:FC<Product> = ({id, sitesCount, name, prices}) =>{
 
   const dispatch = useAppDispatch()
   const router = useRouter();
   const handleClick = () => {
     dispatch(addPackage(id))
-    router.push (
-      { pathname: '/start',
-        query: {
-          data: JSON.stringify(id)
-        }
-      }
-    )
+    router.push ("/start")
   }
 
   return(
     <Card>
-      <CardPrice>${price}</CardPrice>
-      <CardTitle>{title}</CardTitle>
-      <CardDescription>{description}</CardDescription>
+      <CardPrice>${prices.find(item => (item.isActive === true))?.price}</CardPrice>
+      <CardTitle>{name}</CardTitle>
+      <CardDescription>Get the advanced WordPress plugin that optimizes content with GSC keywords at one low annual price</CardDescription>
       <hr/>
       <CardProperties>
-        {
-          properties.map((property: string) => {
-            return (
-              <CardProperty key={property}>
-                <Image src="/СheckIcon.svg" width="25px" height="25px" alt="facebook"/>
-                <p>{property}</p>
-              </CardProperty>)
-          })
-        }
+        <CardProperty>
+          <Image src="/СheckIcon.svg" width="25px" height="25px" alt="checkicon"/>
+          <p>All features for {sitesCount} sites</p>
+        </CardProperty>
+        <CardProperty>
+          <Image src="/СheckIcon.svg" width="25px" height="25px" alt="checkicon"/>
+          <p>Special introductory pricing</p>
+        </CardProperty>
+        <CardProperty>
+          <Image src="/СheckIcon.svg" width="25px" height="25px" alt="checkicon"/>
+          <p>Unlimited Pages and Keywords</p>
+        </CardProperty>
+        <CardProperty>
+          <Image src="/СheckIcon.svg" width="25px" height="25px" alt="checkicon"/>
+          <p>Billed annually</p>
+        </CardProperty>
       </CardProperties>
       <DefaultButton type="button" theme="secondary" onClick={handleClick} value="Get Gscore"/>
     </Card>

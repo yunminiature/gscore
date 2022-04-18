@@ -11,12 +11,12 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import {useSelector, TypedUseSelectorHook, useDispatch} from 'react-redux'
-import {priceReducer} from './Price/index';
 import {userReducer} from "./User";
+import {productsReducer} from "./Products";
 
 const RootReducer = combineReducers({
   user: userReducer,
-  price: priceReducer
+  products: productsReducer
 });
 
 const PersistConfig = {

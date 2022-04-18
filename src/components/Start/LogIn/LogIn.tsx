@@ -1,6 +1,7 @@
 import {FC, useState} from "react";
 import {useCookies} from "react-cookie"
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
+import DefaultForm from "../../../ui/DefaultForm";
 import DefaultInput from "../../../ui/DefaultInput";
 import DefaultButton from "../../../ui/DefaultButton";
 import styled from "styled-components";
@@ -11,7 +12,7 @@ import {EMAIL_REGEX, PASSWORD_REGEX} from "../../../constants";
 import {useAppDispatch} from "../../../store";
 
 interface LogInProps{
-  onStageChange:(stage:"CREATE_ACCOUNT"|"LOG_IN"|"CHECKOUT") => void
+  onStageChange:(stage:"CREATE_ACCOUNT"|"LOG_IN"|"CHECKOUT"|"START") => void
 }
 
 interface LogIn{
@@ -61,91 +62,66 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
   }
 
   return (
-    <>
-      <FormHeader>
-        <h1>Log in</h1>
-      </FormHeader>
+      <DefaultForm headerTitle="Log in">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            control={control}
+            name="email"
+            rules={{
+              pattern: {
+                value: EMAIL_REGEX,
+                message:"Invalid email address"
+              },
+              required:"This field is required"
+            }}
+            render={({field:{onChange, value}}) => (
+              <DefaultInput
+                label="Email"
+                placeholder="Email"
+                type="email"
+                value={value}
+                valid={(!errors?.email && value!== "") ? "valid" : value!== "" ? "invalid" : "undefined"}
+                invalidText={errors?.email?.message}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  onChange(e.target.value);
+                }}
+              />
+            )}
+          />
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          control={control}
-          name="email"
-          rules={{
-            pattern: {
-              value: EMAIL_REGEX,
-              message:"Invalid email address"
-            },
-            required:"This field is required"
-          }}
-          render={({field:{onChange, value}}) => (
-            <DefaultInput
-              label="Email"
-              placeholder="Email"
-              type="email"
-              value={value}
-              valid={(!errors?.email && value!== "") ? "valid" : value!== "" ? "invalid" : "undefined"}
-              invalidText={errors?.email?.message}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                onChange(e.target.value);
-              }}
-            />
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="password"
-          rules={{
-            pattern: {
-              value: PASSWORD_REGEX,
-              message:"Password must be at least 8 characters, " +
-                "contain at least оnе uppercase letter, at least one number, " +
-                "and at least оnе of the following symbols: !@#$%"
-            },
-            required:"This field is required"
-          }}
-          render={({field:{onChange, value}}) => (
-            <DefaultInput
-              label="Password"
-              placeholder="Password"
-              type="password"
-              value={value}
-              valid={(!errors?.password && value!== "") ? "valid" : value!== "" ? "invalid" : "undefined"}
-              invalidText={errors?.password?.message}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                onChange(e.target.value);
-              }}
-            />
-          )}
-        />
-        <ErrorMessage>{errorMessage}</ErrorMessage>
-        <DefaultButton type="submit" theme="primary" value="Log in"/>
-      </form>
-    </>
+          <Controller
+            control={control}
+            name="password"
+            rules={{
+              pattern: {
+                value: PASSWORD_REGEX,
+                message:"Password must be at least 8 characters, " +
+                  "contain at least оnе uppercase letter, at least one number, " +
+                  "and at least оnе of the following symbols: !@#$%"
+              },
+              required:"This field is required"
+            }}
+            render={({field:{onChange, value}}) => (
+              <DefaultInput
+                label="Password"
+                placeholder="Password"
+                type="password"
+                value={value}
+                valid={(!errors?.password && value!== "") ? "valid" : value!== "" ? "invalid" : "undefined"}
+                invalidText={errors?.password?.message}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  onChange(e.target.value);
+                }}
+              />
+            )}
+          />
+          <ErrorMessage>{errorMessage}</ErrorMessage>
+          <DefaultButton type="submit" theme="primary" value="Log in"/>
+        </form>
+      </DefaultForm>
   )
 }
 
-const FormHeader = styled.div`
-  margin: 0 0 32px 0;
-  
-  h1{
-    width: 100%;
-    margin: 65px 0 15px 0;
-    line-height: 54px;
-    font-size: 44px;
-    font-weight: 700;
-    @media (max-width: 426px) {
-      line-height: 40px;
-      font-size: 28px;
-    }
-  }
-  p{
-    width: 100%;
-    line-height: 24px;
-    font-size: 14px;
-    font-weight: 400;
-  }
-`
 const ErrorMessage = styled.p`
   margin: 0 0 15px;
   line-height: 16px;

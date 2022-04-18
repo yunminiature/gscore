@@ -4,12 +4,13 @@ import {colors} from "../../styles/colors";
 import CreateAccount from "../../components/Start/CreateAccount";
 import LogIn from "../../components/Start/LogIn";
 import Checkout from "../../components/Start/Checkout";
+import Start from "../../components/Start/Start";
 
 interface StartProps {
   packageId: number;
 }
 
-const Start:FC<StartProps> = ({packageId}) => {
+const StartPage:FC<StartProps> = ({packageId}) => {
 
   //пока не понимаю как сделать через enum и map
 
@@ -24,7 +25,7 @@ const Start:FC<StartProps> = ({packageId}) => {
   // })
 
   const [formStage, setFormStage] = useState("CREATE_ACCOUNT")
-  const handleFormStage = (stage:"CREATE_ACCOUNT"|"LOG_IN"|"CHECKOUT") => {
+  const handleFormStage = (stage:"CREATE_ACCOUNT"|"LOG_IN"|"CHECKOUT"|"START") => {
     setFormStage(stage)
   }
 
@@ -35,28 +36,35 @@ const Start:FC<StartProps> = ({packageId}) => {
       case "LOG_IN":
         return <LogIn onStageChange={handleFormStage}/>
       case "CHECKOUT":
-        return <Checkout onStageChange={handleFormStage} packageId={packageId}/>
+        return <Checkout onStageChange={handleFormStage}/>
     }
   }
 
   return(
     <StartSection>
-      <StartNavBar>
-        <StartNavItem state={((formStage==="CREATE_ACCOUNT")||(formStage==="LOG_IN")||(formStage==="CHECKOUT"))}>
-          <p>Create account</p>
-          <hr/>
-        </StartNavItem>
-        <StartNavItem state={((formStage==="LOG_IN")||(formStage==="CHECKOUT"))}>
-          <p>Log in</p>
-          <hr/>
-        </StartNavItem>
-        <StartNavItem state={(formStage==="CHECKOUT")}>
-          <p>Checkout</p>
-          <hr/>
-        </StartNavItem>
-      </StartNavBar>
-
-      {form()}
+      {
+        (formStage === "START")
+        ?
+          <Start/>
+        :
+          <>
+            <StartNavBar>
+              <StartNavItem state={((formStage==="CREATE_ACCOUNT")||(formStage==="LOG_IN")||(formStage==="CHECKOUT"))}>
+                <p>Create account</p>
+                <hr/>
+              </StartNavItem>
+              <StartNavItem state={((formStage==="LOG_IN")||(formStage==="CHECKOUT"))}>
+                <p>Log in</p>
+                <hr/>
+              </StartNavItem>
+              <StartNavItem state={(formStage==="CHECKOUT")}>
+                <p>Checkout</p>
+                <hr/>
+              </StartNavItem>
+            </StartNavBar>
+            {form()}
+          </>
+      }
     </StartSection>
   )
 }
@@ -97,4 +105,4 @@ const StartNavItem = styled.li<{state:boolean}>`
   }
 `
 
-export default Start
+export default StartPage
