@@ -6,22 +6,20 @@ import PriceCard from "../PriceCard/PriceCard";
 import {useAppDispatch, useAppSelector} from '../../store/index'
 import {getProducts} from "../../services/Products";
 import {addProducts} from "../../store/Products/actions";
-import {selectProducts} from "../../store/Products/selectors";
 import {Product} from "../../store/Products/types";
 
 const Price:FC = () => {
 
   const dispatch = useAppDispatch()
+  const [products, setProducts] = useState([])
 
   useEffect(() => {
     getProducts()
       .then((response) => {
         dispatch(addProducts(response.data))
+        setProducts(response.data)
       })
   }, [])
-
-  const products = useAppSelector(selectProducts)
-  console.log(products)
 
   return(
     <>
