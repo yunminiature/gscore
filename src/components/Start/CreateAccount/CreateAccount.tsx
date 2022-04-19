@@ -45,13 +45,13 @@ const CreateAccount:FC<CreateAccountProps> = ({onStageChange}) => {
       .catch((error) => {
         (error.response.status === 409)
         {
-          setErrorMessage("User already exists")
+          setErrorMessage(error.message)
           reset()
         }
       })
   }
 
-  const handleStage = (event: React.MouseEvent) => {
+  const handleStage = () => {
     onStageChange("LOG_IN")
   }
 

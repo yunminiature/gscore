@@ -4,7 +4,7 @@ import styled from "styled-components"
 import {colors} from "../../styles/colors";
 import {useAppDispatch} from "../../store";
 import {addPackage} from "../../store/User/actions";
-import Image from "next/image";
+import CheckIcon from "../../../public/СheckIcon.svg"
 import DefaultButton from "../../ui/DefaultButton";
 import {Product} from "../../store/Products/types";
 
@@ -19,25 +19,25 @@ const PriceCard:FC<Product> = ({id, sitesCount, name, prices}) =>{
 
   return(
     <Card>
-      <CardPrice>${prices.find(item => (item.isActive === true))?.price}</CardPrice>
-      <CardTitle>{name}</CardTitle>
+      <CardPrice>${prices.find(item => item.isActive)?.price}</CardPrice>
+      <CardTitle>{name} license</CardTitle>
       <CardDescription>Get the advanced WordPress plugin that optimizes content with GSC keywords at one low annual price</CardDescription>
       <hr/>
       <CardProperties>
         <CardProperty>
-          <Image src="/СheckIcon.svg" width="25px" height="25px" alt="checkicon"/>
+          <CheckIcon width="26px" height="26px" alt="checkicon"/>
           <p>All features for {sitesCount} sites</p>
         </CardProperty>
         <CardProperty>
-          <Image src="/СheckIcon.svg" width="25px" height="25px" alt="checkicon"/>
+          <CheckIcon width="26px" height="26px" alt="checkicon"/>
           <p>Special introductory pricing</p>
         </CardProperty>
         <CardProperty>
-          <Image src="/СheckIcon.svg" width="25px" height="25px" alt="checkicon"/>
+          <CheckIcon width="26px" height="26px" alt="checkicon"/>
           <p>Unlimited Pages and Keywords</p>
         </CardProperty>
         <CardProperty>
-          <Image src="/СheckIcon.svg" width="25px" height="25px" alt="checkicon"/>
+          <CheckIcon width="26px" height="26px" alt="checkicon"/>
           <p>Billed annually</p>
         </CardProperty>
       </CardProperties>
@@ -61,9 +61,6 @@ const Card = styled.li`
     background-color: ${colors.accent.primary};
     hr{
       border-top: 1px solid ${colors.neutral["100"]};
-    }
-    button{
-      color: ${colors.accent.primary};
     }
   }
   
@@ -127,11 +124,11 @@ const CardProperties = styled.ul`
 
 `
 const CardProperty = styled.li`
-  margin: 0 0 15px 0;
+  margin: 0 0 7px 0;
   display: flex;
   
   p{
-    margin: 0 0 0 15px;
+    margin: 5px 0 10px 15px;
     line-height: 20px;
     font-size: 18px;
     font-weight: 500;

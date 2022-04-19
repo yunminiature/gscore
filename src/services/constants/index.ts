@@ -1,10 +1,10 @@
-export const BASE_URL = "https://gscore-back.herokuapp.com"
+export const BASE_URL = "https://gscore-back.herokuapp.com/api/"
 
 export enum PATHS {
-  SIGN_IN = "/api/users/sign-in",
-  SIGN_UP = "/api/users/sign-up",
-  UPDATE_DATA = "/api/users/",
-  UPDATE_PASSWORD = "/api/users/update-password",
+  SIGN_IN = "users/sign-in",
+  SIGN_UP = "users/sign-up",
+  UPDATE_DATA = "users/",
+  UPDATE_PASSWORD = "users/update-password",
 
-  GET_PRODUCTS = "/api/products"
+  GET_PRODUCTS = "products"
 }

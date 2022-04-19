@@ -1,14 +1,17 @@
 import {FC} from "react"
 import styled from 'styled-components'
-import Image from "next/image";
 import Link from "next/link";
+import Logo from "../../../public/Logo.svg"
+import Facebook from "../../../public/Facebook.svg"
+import Twitter from "../../../public/Twitter.svg"
+import LinkedIn from "../../../public/LinkedIn.svg"
 
 const Footer:FC = () => {
 
   return(
     <LayoutFooter>
       <FooterColumn>
-        <Image src="/Logo.svg" width="170px" height="42px" alt="gscore"/>
+        <Logo width="170px" height="42px" alt="gscore"/>
         <FooterDescription>Ut enim аd minim veniam quis nostrud exercitation еа commodo</FooterDescription>
       </FooterColumn>
       <hr/>
@@ -24,9 +27,9 @@ const Footer:FC = () => {
         </FooterCopyright>
 
         <FooterSocial>
-          <li><Image src="/Facebook.svg" width="14px" height="25px" alt="facebook"/></li>
-          <li><Image src="/Twitter.svg" width="25px" height="21px" alt="twitter"/></li>
-          <li><Image src="/LinkedIn.svg" width="25px" height="24px" alt="linkedin"/></li>
+          <li><Facebook width="14px" height="25px" alt="facebook"/></li>
+          <li><Twitter width="25px" height="21px" alt="twitter"/></li>
+          <li><LinkedIn width="25px" height="24px" alt="linkedin"/></li>
         </FooterSocial>
       </FooterBottom>
     </LayoutFooter>

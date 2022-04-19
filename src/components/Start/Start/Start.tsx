@@ -4,7 +4,7 @@ import styled from "styled-components";
 import {useAppSelector} from "../../../store";
 import {selectProducts} from "../../../store/Products/selectors";
 import {selectUser} from "../../../store/User/selectors";
-import {router} from "next/client";
+import {useRouter} from "next/router";
 import DefaultPackage from "../../../ui/DefaultPackage";
 
 const Start:FC = () => {
@@ -12,6 +12,7 @@ const Start:FC = () => {
   const products = useAppSelector(selectProducts)
   const user = useAppSelector(selectUser)
 
+  const router = useRouter();
   const handleClick = () => {
     //sub
     router.push("/subscription")
@@ -23,7 +24,7 @@ const Start:FC = () => {
         headerTitle="Start your subscription"
         headerDescription="We have sent you a payment receipt by e-mail and a link to download the plugin with a license key."
         packageName={products.find(item => (item.id === user.package))?.name}
-        price={products.find(item => (item.id === user.package))?.prices.find(item => (item.isActive === true))?.price}
+        price={products.find(item => (item.id === user.package))?.prices.find(item => item.isActive)?.price}
       />
       <DefaultButton type="button" theme="primary" value="Purchase" onClick={handleClick}/>
     </StartSection>

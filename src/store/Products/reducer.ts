@@ -1,11 +1,11 @@
 import {createReducer, PayloadAction} from '@reduxjs/toolkit';
-import {Products} from './types';
+import {Product} from './types';
 import {addProducts} from "./actions";
 
-const initialState: Products = {} as Products
+const initialState: Product[] = {} as Product[]
 
-const productsReducer = createReducer<Products>(initialState, {
-  [addProducts.type]: (state, action: PayloadAction<Products>) => {
+const productsReducer = createReducer<Product[]>(initialState, {
+  [addProducts.type]: (state, action: PayloadAction<Product[]>) => {
     return action.payload
   }
 })

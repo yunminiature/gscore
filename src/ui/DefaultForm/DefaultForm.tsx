@@ -1,8 +1,4 @@
 import {FC} from "react";
-import {Controller} from "react-hook-form";
-import {EMAIL_REGEX, PASSWORD_REGEX, USER_REGEX} from "../../constants";
-import DefaultInput from "../DefaultInput";
-import DefaultButton from "../DefaultButton";
 import styled from "styled-components";
 import {colors} from "../../styles/colors";
 

@@ -1,8 +1,12 @@
 import {FC, useState} from "react"
 import styled from "styled-components"
-import {useAppSelector} from '../../store/index'
+import {useAppSelector} from '../../store'
 import {selectUser} from "../../store/User/selectors";
-import Image from "next/image";
+import Logo from "../../../public/Logo.svg"
+import Up from "../../../public/Up.svg"
+import Down from "../../../public/Down.svg"
+import Settings from "../../../public/Settings.svg";
+import LogOut from "../../../public/Logout.svg"
 import Link from "next/link";
 
 
@@ -23,18 +27,18 @@ const Header:FC = () => {
         <NavPopUp>
           <PopUpUser onClick={toggleNavPopUp}>
             <p>{user.user.username}</p>
-            {(navPopUp) ? <Image src="/Up.svg" width="14px" height="7px" alt="open popup"/> : <Image src="/Down.svg" width="14px" height="7px" alt="open popup"/>}
+            {(navPopUp) ? <Up width="16px" height="9px" alt="open popup"/> : <Down width="16px" height="9px" alt="open popup"/>}
           </PopUpUser>
           {(navPopUp) &&
             <PopUp>
               <div>
-                <Image src="/Settings.svg" width="24px" height="24px" alt="settings"/>
+                <Settings width="24px" height="24px" alt="settings"/>
                 <Link href="/settings">
                   <a>Settings</a>
                 </Link>
               </div>
               <div>
-                <Image src="/Logout.svg" width="24px" height="24px" alt="logout"/>
+                <LogOut width="24px" height="24px" alt="logout"/>
                 <Link href="/">
                   <a>Logout</a>
                 </Link>
@@ -47,7 +51,7 @@ const Header:FC = () => {
   return(
     <HeaderLayout>
       <Link href="/">
-        <LogoLink><Image src="/Logo.svg" width="170px" height="42px" alt="gscore"/></LogoLink>
+        <LogoLink><Logo width="170px" height="42px" alt="gscore"/></LogoLink>
       </Link>
       {navBar}
     </HeaderLayout>
@@ -86,6 +90,8 @@ const NavPopUp = styled.div`
 `
 const PopUpUser = styled.div`
   display: flex;
+  align-items: center;
+  cursor: pointer;
   p{
     margin-right: 10px;
   }

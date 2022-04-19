@@ -13,7 +13,3 @@ export interface Product {
     price: string
   }>
 }
-
-export interface Products {
-  products: Array <Product>
-}
