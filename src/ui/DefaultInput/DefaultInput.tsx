@@ -1,8 +1,6 @@
 import {FC, InputHTMLAttributes} from "react"
 import styled from 'styled-components';
 import {colors} from "../../styles/colors";
-import check from "../../../public/Check.svg";
-import close from "../../../public/Close.svg"
 
 interface DefaultInputProps extends InputHTMLAttributes<HTMLInputElement>{
   label?: string;
@@ -21,12 +19,12 @@ const DefaultInput:FC<DefaultInputProps> = ({label, type, placeholder, value, va
       case "valid":
         return{
           color: colors.green["300"],
-          icon: check.src,
+          icon: "Check.svg",
         }
       case "invalid":
         return{
           color: colors.red["300"],
-          icon: close.src,
+          icon: "Close.svg",
         }
 
     }

@@ -41,7 +41,7 @@ const PersonalForm:FC = () => {
         setErrorMessage("")
       })
       .catch((error) => {
-        setErrorMessage(error.response.data.data.message)
+        setErrorMessage(error.response.data.message)
       })
       .finally(() => {
         reset()

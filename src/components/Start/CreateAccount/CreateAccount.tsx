@@ -47,7 +47,7 @@ const CreateAccount:FC<CreateAccountProps> = ({onStageChange}) => {
         onStageChange(FormStageTypes.LOG_IN)
       })
       .catch((error) => {
-        setErrorMessage(error.response.data.data.message)
+        setErrorMessage(error.response.data.message)
         reset()
       })
       .finally(() => {
