@@ -57,11 +57,8 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
         onStageChange(FormStageTypes.CHECKOUT)
       })
       .catch((error) => {
-        (error.response.status === 404)
-        {
-          setErrorMessage("User does not exist")
-          reset()
-        }
+        setErrorMessage(error.response.data.data.message)
+        reset()
       })
       .finally(() => {
         setLoading(false)
