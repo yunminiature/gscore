@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig} from "axios";
 import {BASE_URL} from "./constants";
-import store from "../store";
+import store from "../../store";
 
 const config: AxiosRequestConfig = {
   baseURL: BASE_URL,

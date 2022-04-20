@@ -6,7 +6,7 @@ import DefaultInput from "../../../ui/DefaultInput";
 import DefaultButton from "../../../ui/DefaultButton";
 import styled from "styled-components";
 import {colors} from "../../../styles/colors";
-import {signUp} from "../../../services/Users";
+import {signUp} from "../../../pages/api/User";
 
 interface CreateAccountProps{
   onStageChange:(stage:"CREATE_ACCOUNT"|"LOG_IN"|"CHECKOUT"|"START") => void
@@ -19,6 +19,8 @@ interface CreateAccount{
 }
 
 const CreateAccount:FC<CreateAccountProps> = ({onStageChange}) => {
+
+  const [isLoading, setLoading] = useState(false)
 
   const [errorMessage, setErrorMessage] = useState("")
 
@@ -34,6 +36,7 @@ const CreateAccount:FC<CreateAccountProps> = ({onStageChange}) => {
   )
   const onSubmit: SubmitHandler<CreateAccount> = data =>{
     const {username, email, password} = data;
+    setLoading(true)
     signUp({
       username,
       email,
@@ -43,11 +46,11 @@ const CreateAccount:FC<CreateAccountProps> = ({onStageChange}) => {
         onStageChange("LOG_IN")
       })
       .catch((error) => {
-        (error.response.status === 409)
-        {
-          setErrorMessage(error.message)
-          reset()
-        }
+        setErrorMessage(error.message)
+        reset()
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
 
@@ -141,7 +144,7 @@ const CreateAccount:FC<CreateAccountProps> = ({onStageChange}) => {
             )}
           />
           <ErrorMessage>{errorMessage}</ErrorMessage>
-          <DefaultButton type="submit" theme="primary" disabled={!isValid} value="Send password"/>
+          <DefaultButton type="submit" theme="primary" disabled={!isValid} value="Send password" isLoading={isLoading}/>
         </form>
       </DefaultForm>
   )

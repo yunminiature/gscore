@@ -1,8 +1,13 @@
 import {createReducer, PayloadAction} from '@reduxjs/toolkit';
-import {User} from './types';
+import {
+  User,
+  UserDto
+} from './types';
 import {
   addPackage,
-  signInAction
+  signInAction,
+  signOutAction,
+  updateDataAction
 } from './actions'
 
 const initialState: User = {} as User
@@ -16,6 +21,16 @@ const userReducer = createReducer<User>(initialState, {
     state.token = action.payload.token
     state.user = {
       ...action.payload.user
+    }
+  },
+
+  [signOutAction.type]: () => {
+    return {} as User
+  },
+
+  [updateDataAction.type]: (state, action: PayloadAction<UserDto>) => {
+    state.user = {
+      ...action.payload
     }
   }
 })

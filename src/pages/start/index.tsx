@@ -5,12 +5,10 @@ import CreateAccount from "../../components/Start/CreateAccount";
 import LogIn from "../../components/Start/LogIn";
 import Checkout from "../../components/Start/Checkout";
 import Start from "../../components/Start/Start";
+import {useAppSelector} from "../../store";
+import {selectUser} from "../../store/User/selectors";
 
-interface StartProps {
-  packageId: number;
-}
-
-const StartPage:FC<StartProps> = ({packageId}) => {
+const StartPage:FC = () => {
 
   //пока не понимаю как сделать через enum и map
 
@@ -24,7 +22,10 @@ const StartPage:FC<StartProps> = ({packageId}) => {
   //   return()
   // })
 
-  const [formStage, setFormStage] = useState("CREATE_ACCOUNT")
+  const user = useAppSelector(selectUser)
+
+  const initialFormState = user.token ? "CHECKOUT" : "CREATE_ACCOUNT"
+  const [formStage, setFormStage] = useState(initialFormState)
   const handleFormStage = (stage:"CREATE_ACCOUNT"|"LOG_IN"|"CHECKOUT"|"START") => {
     setFormStage(stage)
   }

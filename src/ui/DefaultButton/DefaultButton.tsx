@@ -1,12 +1,14 @@
 import {ButtonHTMLAttributes, FC} from "react"
 import styled from 'styled-components';
 import {colors} from "../../styles/colors";
+import LoaderIcon from "../../../public/LoaderIcon.svg"
 
 interface DefaultButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
   theme: string;
+  isLoading?: boolean
 }
 
-const DefaultButton:FC<DefaultButtonProps> = ({type, theme, onClick, disabled, value}) => {
+const DefaultButton:FC<DefaultButtonProps> = ({type, theme, onClick, disabled, value, isLoading}) => {
 
   const styleTheme = () => {
     switch (theme){
@@ -32,7 +34,12 @@ const DefaultButton:FC<DefaultButtonProps> = ({type, theme, onClick, disabled, v
   }
 
   return(
-    <Button type={type} theme={styleTheme()} onClick={onClick} disabled={disabled}>{value}</Button>
+    <Button type={type} theme={styleTheme()} onClick={onClick} disabled={disabled}>
+      {isLoading
+        ? <Loader><LoaderIcon/></Loader>
+        : value
+      }
+    </Button>
   )
 }
 
@@ -58,6 +65,25 @@ const Button = styled.button`
   &:disabled{
     cursor: default;
     opacity: ${props => props.theme.disabled};
+  }    
+  
+  svg{
+    width: 18px;
+    height: 18px;
+    stroke: ${props => props.theme.color}
+  }
+`
+
+const Loader = styled.div`
+  animation: spin 1000ms linear infinite;
+
+  @keyframes spin {
+    from {
+      transform:rotate(0deg);
+    }
+    to {
+      transform:rotate(360deg);
+    }
   }
 `
 

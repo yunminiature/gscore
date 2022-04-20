@@ -51,7 +51,7 @@ const Card = styled.li`
   min-width: 290px;
   padding: 40px 50px;
   border-radius: 12px;
-  background-color: #272727;
+  background-color: ${colors.neutral["700"]};
 
   hr{
     margin: 40px 0;
@@ -73,7 +73,7 @@ const Card = styled.li`
       color: ${colors.neutral["400"]};
     }
     button{
-      color: #181818;
+      color: ${colors.neutral["800"]};
     }
   }
   

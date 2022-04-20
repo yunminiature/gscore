@@ -1,9 +1,13 @@
-import {FC} from "react";
+import {FC, useState} from "react";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {EMAIL_REGEX, USER_REGEX} from "../../../constants";
 import DefaultInput from "../../../ui/DefaultInput";
 import DefaultButton from "../../../ui/DefaultButton";
 import styled from "styled-components";
+import {colors} from "../../../styles/colors";
+import {updateData} from "../../../pages/api/User";
+import {useAppDispatch} from "../../../store";
+import {updateDataAction} from "../../../store/User/actions";
 
 interface UpdatePersonal{
   username: string;
@@ -12,7 +16,11 @@ interface UpdatePersonal{
 
 const PersonalForm:FC = () => {
 
-  const {handleSubmit, control, formState: {errors, isValid}} = useForm<UpdatePersonal>(
+  const dispatch = useAppDispatch()
+  const [isLoading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+
+  const {handleSubmit, control, reset, formState: {errors, isValid}} = useForm<UpdatePersonal>(
     {
       defaultValues: {
         username: "",
@@ -23,22 +31,22 @@ const PersonalForm:FC = () => {
   )
   const onSubmit: SubmitHandler<UpdatePersonal> = data =>{
     const {username, email} = data;
-    //я тут еще не доделала
-    // signUp({
-    //   username,
-    //   email,
-    //   password
-    // })
-    //   .then(() => {
-    //     onStageChange("LOG_IN")
-    //   })
-    //   .catch((error) => {
-    //     (error.response.status === 409)
-    //     {
-    //       setErrorMessage(error.message)
-    //       reset()
-    //     }
-    //   })
+    setLoading(true)
+    updateData({
+      email,
+      username
+    })
+      .then((response) => {
+        dispatch(updateDataAction(response.data))
+        setErrorMessage("")
+      })
+      .catch((error) => {
+        setErrorMessage(error.message)
+      })
+      .finally(() => {
+        reset()
+        setLoading(false)
+      })
   }
 
   return(
@@ -94,7 +102,8 @@ const PersonalForm:FC = () => {
             />
           )}
         />
-        <DefaultButton type="submit" theme="primary" disabled={!isValid} value="Save"/>
+        <ErrorMessage>{errorMessage}</ErrorMessage>
+        <DefaultButton type="submit" theme="primary" disabled={!isValid} value="Save" isLoading={isLoading}/>
       </form>
     </Form>
   )
@@ -102,8 +111,29 @@ const PersonalForm:FC = () => {
 
 const Form = styled.div`
   max-width: 512px;
+  margin: 45px 0 0;
+  
+  button{
+    margin-top: 15px;
+    min-width: 160px;
+  }
 `
 const FormTitle = styled.h2`
+  margin: 0 0 25px;
+  line-height: 40px;
+  font-size: 28px;
+  font-weight: 700;
+  @media (max-width: 426px) {
+    line-height: 28px;
+    font-size: 24px;
+  }
+`
+const ErrorMessage = styled.p`
+  margin: 0 0 15px;
+  line-height: 16px;
+  font-size: 14px;
+  font-weight: 400;
+  color: ${colors.red["300"]};
 `
 
 export default PersonalForm

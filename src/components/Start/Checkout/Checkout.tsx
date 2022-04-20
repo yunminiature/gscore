@@ -1,8 +1,6 @@
 import {FC} from "react";
-import Image from "next/image";
 import DefaultButton from "../../../ui/DefaultButton";
 import styled from "styled-components";
-import {colors} from "../../../styles/colors";
 import {useAppSelector} from "../../../store";
 import {selectProducts} from "../../../store/Products/selectors";
 import {selectUser} from "../../../store/User/selectors";
@@ -16,8 +14,10 @@ const Checkout:FC<CheckoutProps> = ({onStageChange}) => {
 
   const products = useAppSelector(selectProducts)
   const user = useAppSelector(selectUser)
+  const productName = products.find(item => (item.id === user.package))?.name
+  const productPrice = products.find(item => (item.id === user.package))?.prices.find(item => item.isActive)?.price
 
-  const handleStage = (event: React.MouseEvent) => {
+  const handleStage = () => {
     onStageChange("START")
   }
 
@@ -25,12 +25,12 @@ const Checkout:FC<CheckoutProps> = ({onStageChange}) => {
     <>
       <DefaultPackage
         headerTitle="Checkout"
-        packageName={products.find(item => (item.id === user.package))?.name}
-        price={products.find(item => (item.id === user.package))?.prices.find(item => (item.isActive === true))?.price}
+        packageName={productName}
+        price={productPrice}
       />
       <TotalPrice>
         <h3>Total</h3>
-        <p>$ {products.find(item => (item.id === user.package))?.prices.find(item => (item.isActive === true))?.price}</p>
+        <p>$ {productPrice}</p>
       </TotalPrice>
       <DefaultButton type="button" theme="primary" value="Purchase" onClick={handleStage}/>
     </>

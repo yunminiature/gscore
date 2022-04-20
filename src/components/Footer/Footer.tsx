@@ -5,6 +5,7 @@ import Logo from "../../../public/Logo.svg"
 import Facebook from "../../../public/Facebook.svg"
 import Twitter from "../../../public/Twitter.svg"
 import LinkedIn from "../../../public/LinkedIn.svg"
+import {colors} from "../../styles/colors";
 
 const Footer:FC = () => {
 
@@ -73,7 +74,7 @@ const FooterCopyright = styled.div`
   text-align: center;
   font-family: Inter;
   a{
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid ${colors.neutral["100"]};
   }
 `
 const FooterSocial = styled.ul`

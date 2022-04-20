@@ -6,7 +6,7 @@ import DefaultInput from "../../../ui/DefaultInput";
 import DefaultButton from "../../../ui/DefaultButton";
 import styled from "styled-components";
 import {colors} from "../../../styles/colors";
-import {signIn} from "../../../services/Users";
+import {signIn} from "../../../pages/api/User";
 import {signInAction} from "../../../store/User/actions";
 import {EMAIL_REGEX, PASSWORD_REGEX} from "../../../constants";
 import {useAppDispatch} from "../../../store";
@@ -28,6 +28,8 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
   const [cookie, setCookie] = useCookies(["user"])
   const [errorMessage, setErrorMessage] = useState("")
 
+  const [isLoading, setLoading] = useState(false)
+
   const {handleSubmit, control, reset, formState: {errors, isValid}} = useForm<LogIn>(
     {
       defaultValues: {
@@ -39,6 +41,7 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
   )
   const onSubmit: SubmitHandler<LogIn> = data => {
     const {email, password} = data;
+    setLoading(true)
     signIn({
       email,
       password
@@ -58,6 +61,9 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
           setErrorMessage("User does not exist")
           reset()
         }
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
 
@@ -116,7 +122,7 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
             )}
           />
           <ErrorMessage>{errorMessage}</ErrorMessage>
-          <DefaultButton type="submit" theme="primary" value="Log in"/>
+          <DefaultButton type="submit" theme="primary" value="Log in" disabled={!isValid} isLoading={isLoading}/>
         </form>
       </DefaultForm>
   )

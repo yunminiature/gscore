@@ -1,25 +1,25 @@
-import {FC, useEffect, useState} from "react"
+import {FC, useEffect} from "react"
 import styled from "styled-components"
 import {colors} from "../../styles/colors";
 import Link from "next/link";
 import PriceCard from "../PriceCard/PriceCard";
-import {useAppDispatch, useAppSelector} from '../../store/index'
-import {getProducts} from "../../services/Products";
+import {useAppDispatch, useAppSelector} from '../../store'
+import {getProducts} from "../../pages/api/Products";
 import {addProducts} from "../../store/Products/actions";
 import {Product} from "../../store/Products/types";
+import {selectProducts} from "../../store/Products/selectors";
 
 const Price:FC = () => {
 
   const dispatch = useAppDispatch()
-  const [products, setProducts] = useState([])
+  const products = useAppSelector(selectProducts)
 
   useEffect(() => {
     getProducts()
       .then((response) => {
         dispatch(addProducts(response.data))
-        setProducts(response.data)
       })
-  }, [])
+  }, [products])
 
   return(
     <>
