@@ -5,9 +5,10 @@ import {useAppSelector} from "../../../store";
 import {selectProducts} from "../../../store/Products/selectors";
 import {selectUser} from "../../../store/User/selectors";
 import DefaultPackage from "../../../ui/DefaultPackage";
+import {FormStageTypes} from "../../../pages/start";
 
 interface CheckoutProps{
-  onStageChange:(stage:"CREATE_ACCOUNT"|"LOG_IN"|"CHECKOUT"|"START") => void
+  onStageChange:(stage:FormStageTypes) => void
 }
 
 const Checkout:FC<CheckoutProps> = ({onStageChange}) => {
@@ -18,7 +19,7 @@ const Checkout:FC<CheckoutProps> = ({onStageChange}) => {
   const productPrice = products.find(item => (item.id === user.package))?.prices.find(item => item.isActive)?.price
 
   const handleStage = () => {
-    onStageChange("START")
+    onStageChange(FormStageTypes.START)
   }
 
   return (

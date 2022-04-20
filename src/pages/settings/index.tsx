@@ -4,37 +4,38 @@ import {colors} from "../../styles/colors";
 import PersonalForm from "../../components/Settings/PersonalForm";
 import PasswordForm from "../../components/Settings/PasswordForm";
 
+export const enum settingStateTypes {
+  PERSONAL = "PERSONAL",
+  PASSWORD = "PASSWORD"
+}
+
 const Settings:FC = () => {
 
-  const [settingState, setSettingState] = useState("PERSONAL")
-  const handleSettingState = (state:"PERSONAL"|"PASSWORD") => {
+  const [settingState, setSettingState] = useState(settingStateTypes.PERSONAL)
+  const handleSettingState = (state:settingStateTypes) => {
     setSettingState(state)
   }
 
-  const form = () => {
-    switch(settingState){
-      case "PERSONAL":
-        return <PersonalForm/>
-      case "PASSWORD":
-        return <PasswordForm/>
-    }
+  const settingStateMapping = {
+    PERSONAL: <PersonalForm/>,
+    PASSWORD: <PasswordForm/>
   }
 
   return(
     <SettingsSection>
       <SettingsTitle>Settings</SettingsTitle>
       <SettingsNavBar>
-        <SettingsNavItem state={(settingState==="PERSONAL")} onClick={()=>{handleSettingState("PERSONAL")}}>
+        <SettingsNavItem state={(settingState==="PERSONAL")} onClick={()=>{handleSettingState(settingStateTypes.PERSONAL)}}>
           <p>Personal info</p>
           <hr/>
         </SettingsNavItem>
-        <SettingsNavItem state={(settingState==="PASSWORD")} onClick={()=>{handleSettingState("PASSWORD")}}>
+        <SettingsNavItem state={(settingState==="PASSWORD")} onClick={()=>{handleSettingState(settingStateTypes.PASSWORD)}}>
           <p>Change password</p>
           <hr/>
         </SettingsNavItem>
         <SettingsNavHr/>
       </SettingsNavBar>
-      {form()}
+      {settingStateMapping[settingState]}
     </SettingsSection>
   )
 }

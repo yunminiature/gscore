@@ -7,9 +7,10 @@ import DefaultButton from "../../../ui/DefaultButton";
 import styled from "styled-components";
 import {colors} from "../../../styles/colors";
 import {signUp} from "../../../pages/api/User";
+import {FormStageTypes} from "../../../pages/start";
 
 interface CreateAccountProps{
-  onStageChange:(stage:"CREATE_ACCOUNT"|"LOG_IN"|"CHECKOUT"|"START") => void
+  onStageChange:(stage:FormStageTypes) => void
 }
 
 interface CreateAccount{
@@ -43,10 +44,10 @@ const CreateAccount:FC<CreateAccountProps> = ({onStageChange}) => {
       password
     })
       .then(() => {
-        onStageChange("LOG_IN")
+        onStageChange(FormStageTypes.LOG_IN)
       })
       .catch((error) => {
-        setErrorMessage(error.message)
+        setErrorMessage(error.response.data.data.message)
         reset()
       })
       .finally(() => {
@@ -55,7 +56,7 @@ const CreateAccount:FC<CreateAccountProps> = ({onStageChange}) => {
   }
 
   const handleStage = () => {
-    onStageChange("LOG_IN")
+    onStageChange(FormStageTypes.LOG_IN)
   }
 
   return(

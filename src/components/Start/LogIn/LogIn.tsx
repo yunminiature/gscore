@@ -10,9 +10,10 @@ import {signIn} from "../../../pages/api/User";
 import {signInAction} from "../../../store/User/actions";
 import {EMAIL_REGEX, PASSWORD_REGEX} from "../../../constants";
 import {useAppDispatch} from "../../../store";
+import {FormStageTypes} from "../../../pages/start";
 
 interface LogInProps{
-  onStageChange:(stage:"CREATE_ACCOUNT"|"LOG_IN"|"CHECKOUT"|"START") => void
+  onStageChange:(stage:FormStageTypes) => void
 }
 
 interface LogIn{
@@ -53,7 +54,7 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
           maxAge: 3600,
           sameSite: true,
         })
-        onStageChange("CHECKOUT")
+        onStageChange(FormStageTypes.CHECKOUT)
       })
       .catch((error) => {
         (error.response.status === 404)

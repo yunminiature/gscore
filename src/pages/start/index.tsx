@@ -8,37 +8,28 @@ import Start from "../../components/Start/Start";
 import {useAppSelector} from "../../store";
 import {selectUser} from "../../store/User/selectors";
 
+export const enum FormStageTypes {
+  CREATE_ACCOUNT = "CREATE_ACCOUNT",
+  LOG_IN = "LOG_IN",
+  CHECKOUT = "CHECKOUT",
+  START = "START"
+}
+
 const StartPage:FC = () => {
-
-  //пока не понимаю как сделать через enum и map
-
-  // enum FormStages {
-  //   CREATE_ACCOUNT= "CREATE_ACCOUNT",
-  //   LOG_IN = "LOG_IN",
-  //   CHECKOUT = "CHECKOUT",
-  //   START = "START"
-  // }
-  // (Object.keys(FormStages) as Array<keyof typeof FormStages>).map((key) => {
-  //   return()
-  // })
 
   const user = useAppSelector(selectUser)
 
-  const initialFormState = user.token ? "CHECKOUT" : "CREATE_ACCOUNT"
-  const [formStage, setFormStage] = useState(initialFormState)
-  const handleFormStage = (stage:"CREATE_ACCOUNT"|"LOG_IN"|"CHECKOUT"|"START") => {
+  const initialFormStage = user.token ? FormStageTypes.CHECKOUT : FormStageTypes.CREATE_ACCOUNT
+  const [formStage, setFormStage] = useState(initialFormStage)
+  const handleFormStage = (stage:FormStageTypes) => {
     setFormStage(stage)
   }
 
-  const form = () => {
-    switch(formStage){
-      case "CREATE_ACCOUNT":
-        return <CreateAccount onStageChange={handleFormStage}/>
-      case "LOG_IN":
-        return <LogIn onStageChange={handleFormStage}/>
-      case "CHECKOUT":
-        return <Checkout onStageChange={handleFormStage}/>
-    }
+  const formStageMapping = {
+    CREATE_ACCOUNT: <CreateAccount onStageChange={handleFormStage}/>,
+    LOG_IN: <LogIn onStageChange={handleFormStage}/>,
+    CHECKOUT: <Checkout onStageChange={handleFormStage}/>,
+    START: <Start/>
   }
 
   return(
@@ -63,7 +54,7 @@ const StartPage:FC = () => {
                 <hr/>
               </StartNavItem>
             </StartNavBar>
-            {form()}
+            {formStageMapping[formStage]}
           </>
       }
     </StartSection>
