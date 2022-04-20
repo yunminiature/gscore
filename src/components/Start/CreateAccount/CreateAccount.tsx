@@ -1,9 +1,9 @@
 import {FC, useState} from "react";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {USER_REGEX, EMAIL_REGEX, PASSWORD_REGEX} from "../../../constants";
-import DefaultForm from "../../../ui/DefaultForm";
-import DefaultInput from "../../../ui/DefaultInput";
-import DefaultButton from "../../../ui/DefaultButton";
+import {DefaultForm} from "../../../ui";
+import {DefaultInput} from "../../../ui";
+import {DefaultButton} from "../../../ui";
 import styled from "styled-components";
 import {colors} from "../../../styles/colors";
 import {signUp} from "../../../pages/api/User";
@@ -47,7 +47,7 @@ const CreateAccount:FC<CreateAccountProps> = ({onStageChange}) => {
         onStageChange(FormStageTypes.LOG_IN)
       })
       .catch((error) => {
-        setErrorMessage(error.response.data.message)
+        setErrorMessage(error.message)
         reset()
       })
       .finally(() => {

@@ -5,7 +5,7 @@ import {colors} from "../../styles/colors";
 import {useAppDispatch} from "../../store";
 import {addPackage} from "../../store/User/actions";
 import CheckIcon from "../../../public/СheckIcon.svg"
-import DefaultButton from "../../ui/DefaultButton";
+import {DefaultButton} from "../../ui";
 import {Product} from "../../store/Products/types";
 
 const PriceCard:FC<Product> = ({id, sitesCount, name, prices}) =>{
@@ -53,27 +53,26 @@ const Card = styled.li`
   border-radius: 12px;
   background-color: ${colors.neutral["700"]};
 
+  margin-top: 50px;
   hr{
     margin: 40px 0;
+    border-top: 1px solid ${colors.neutral["500"]};
+  }
+  p{
+    color: ${colors.neutral["400"]};
+  }
+  button{
+    color: ${colors.neutral["800"]};
   }
 
-  &:nth-child(2){
+  &:hover{
+    margin: 0;
     background-color: ${colors.accent.primary};
     hr{
       border-top: 1px solid ${colors.neutral["100"]};
     }
-  }
-  
-  &:nth-child(2n+1){
-    margin-top: 50px;
-    hr{
-      border-top: 1px solid ${colors.neutral["500"]};
-    }
     p{
-      color: ${colors.neutral["400"]};
-    }
-    button{
-      color: ${colors.neutral["800"]};
+      color: ${colors.neutral["100"]};
     }
   }
   

@@ -1,8 +1,8 @@
 import {FC, useState} from "react";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {EMAIL_REGEX, USER_REGEX} from "../../../constants";
-import DefaultInput from "../../../ui/DefaultInput";
-import DefaultButton from "../../../ui/DefaultButton";
+import {DefaultInput} from "../../../ui";
+import {DefaultButton} from "../../../ui";
 import styled from "styled-components";
 import {colors} from "../../../styles/colors";
 import {updateData} from "../../../pages/api/User";
@@ -41,7 +41,7 @@ const PersonalForm:FC = () => {
         setErrorMessage("")
       })
       .catch((error) => {
-        setErrorMessage(error.response.data.message)
+        setErrorMessage(error.message)
       })
       .finally(() => {
         reset()

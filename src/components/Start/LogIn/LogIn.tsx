@@ -1,9 +1,9 @@
 import {FC, useState} from "react";
 import {useCookies} from "react-cookie"
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import DefaultForm from "../../../ui/DefaultForm";
-import DefaultInput from "../../../ui/DefaultInput";
-import DefaultButton from "../../../ui/DefaultButton";
+import {DefaultForm} from "../../../ui";
+import {DefaultInput} from "../../../ui";
+import {DefaultButton} from "../../../ui";
 import styled from "styled-components";
 import {colors} from "../../../styles/colors";
 import {signIn} from "../../../pages/api/User";
@@ -57,7 +57,7 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
         onStageChange(FormStageTypes.CHECKOUT)
       })
       .catch((error) => {
-        setErrorMessage(error.response.data.message)
+        setErrorMessage(error.message)
         reset()
       })
       .finally(() => {

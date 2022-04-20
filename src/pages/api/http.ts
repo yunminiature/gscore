@@ -18,3 +18,10 @@ httpClient.interceptors.request.use((config) => {
   }
   return config;
 });
+
+httpClient.interceptors.response.use(
+  response => response,
+  error => {
+    throw new Error(error.response.data.message);
+  }
+)

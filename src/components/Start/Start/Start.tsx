@@ -1,11 +1,11 @@
 import {FC} from "react";
-import DefaultButton from "../../../ui/DefaultButton";
+import {DefaultButton} from "../../../ui";
 import styled from "styled-components";
 import {useAppSelector} from "../../../store";
 import {selectProducts} from "../../../store/Products/selectors";
 import {selectUser} from "../../../store/User/selectors";
 import {useRouter} from "next/router";
-import DefaultPackage from "../../../ui/DefaultPackage";
+import {DefaultPackage} from "../../../ui";
 
 const Start:FC = () => {
 

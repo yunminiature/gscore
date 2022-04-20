@@ -1,8 +1,8 @@
 import {FC, useState} from "react";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {PASSWORD_REGEX} from "../../../constants";
-import DefaultInput from "../../../ui/DefaultInput";
-import DefaultButton from "../../../ui/DefaultButton";
+import {DefaultInput} from "../../../ui";
+import {DefaultButton} from "../../../ui";
 import styled from "styled-components";
 import {colors} from "../../../styles/colors";
 import {updatePassword} from "../../../pages/api/User";
@@ -37,7 +37,7 @@ const PasswordForm:FC = () => {
         setErrorMessage("")
       })
       .catch((error) => {
-        setErrorMessage(error.response.data.message)
+        setErrorMessage(error.message)
       })
       .finally(() => {
         reset()

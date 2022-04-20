@@ -17,6 +17,7 @@ import {signOutAction} from "../../store/User/actions";
 const Header:FC = () => {
 
   const user = useAppSelector(selectUser)
+  console.log(user)
   const dispatch = useAppDispatch()
 
   const signOut = () => {
@@ -53,7 +54,9 @@ const Header:FC = () => {
               </div>
               <div>
                 <LogOut alt="logout"/>
-                <p onClick={signOut}>Logout</p>
+                <Link href="/">
+                  <a onClick={signOut}>Logout</a>
+                </Link>
               </div>
             </PopUp>
           }
@@ -85,13 +88,15 @@ const Header:FC = () => {
                   && <SideBarSubmenu>
                       <SideBarSubmenuItem>
                         <Settings alt="settings"/>
-                        <Link href="/">
+                        <Link href="/settings">
                           <a>Settings</a>
                         </Link>
                       </SideBarSubmenuItem>
                       <SideBarSubmenuItem>
                         <LogOut alt="logout"/>
-                        <p onClick={signOut}>Logout</p>
+                        <Link href="/">
+                          <a onClick={signOut}>Logout</a>
+                        </Link>
                       </SideBarSubmenuItem>
                     </SideBarSubmenu>
                 }
@@ -227,7 +232,7 @@ const PopUp = styled.div`
     &:first-child{
       margin-bottom: 32px;
     }
-    a, p{
+    a{
       margin: 0 0 0 12px;
       cursor: pointer;
     }

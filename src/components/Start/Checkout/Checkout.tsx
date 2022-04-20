@@ -1,5 +1,5 @@
 import {FC} from "react";
-import DefaultButton from "../../../ui/DefaultButton";
+import {DefaultButton} from "../../../ui";
 import styled from "styled-components";
 import {useAppSelector} from "../../../store";
 import {selectProducts} from "../../../store/Products/selectors";
