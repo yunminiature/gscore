@@ -35,21 +35,21 @@ const StartPage:FC = () => {
   return(
     <StartSection>
       {
-        (formStage === "START")
+        (formStage === FormStageTypes.START)
         ?
           <Start/>
         :
           <>
             <StartNavBar>
-              <StartNavItem state={((formStage==="CREATE_ACCOUNT")||(formStage==="LOG_IN")||(formStage==="CHECKOUT"))}>
+              <StartNavItem state={((formStage===FormStageTypes.CREATE_ACCOUNT)||(formStage===FormStageTypes.LOG_IN)||(formStage===FormStageTypes.CHECKOUT))}>
                 <p>Create account</p>
                 <hr/>
               </StartNavItem>
-              <StartNavItem state={((formStage==="LOG_IN")||(formStage==="CHECKOUT"))}>
+              <StartNavItem state={((formStage===FormStageTypes.LOG_IN)||(formStage===FormStageTypes.CHECKOUT))}>
                 <p>Log in</p>
                 <hr/>
               </StartNavItem>
-              <StartNavItem state={(formStage==="CHECKOUT")}>
+              <StartNavItem state={(formStage===FormStageTypes.CHECKOUT)}>
                 <p>Checkout</p>
                 <hr/>
               </StartNavItem>

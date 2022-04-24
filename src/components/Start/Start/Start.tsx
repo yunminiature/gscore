@@ -9,7 +9,7 @@ import {DefaultPackage} from "../../../ui";
 
 const Start:FC = () => {
 
-  const products = useAppSelector(selectProducts)
+  const {products} = useAppSelector(selectProducts)
   const user = useAppSelector(selectUser)
 
   const router = useRouter();

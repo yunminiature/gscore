@@ -4,46 +4,44 @@ import {colors} from "../../styles/colors";
 import Link from "next/link";
 import PriceCard from "../PriceCard/PriceCard";
 import {useAppDispatch, useAppSelector} from '../../store'
-import {getProducts} from "../../pages/api/Products";
-import {addProducts} from "../../store/Products/actions";
 import {Product} from "../../store/Products/types";
 import {selectProducts} from "../../store/Products/selectors";
+import {fetchProducts} from "../../store/Products/reducer";
 
 const Price:FC = () => {
 
   const dispatch = useAppDispatch()
-  const products = useAppSelector(selectProducts)
+  const {products, status} = useAppSelector(selectProducts)
 
   useEffect(() => {
-    getProducts()
-      .then((response) => {
-        dispatch(addProducts(response.data))
-      })
-  }, [products])
+    dispatch(fetchProducts())
+  }, [dispatch])
 
   return(
     <>
-      <PriceSection>
-        <PriceTitle>
-          Get started with Gscore today!
-        </PriceTitle>
+      {status==="resolved" &&
+        <PriceSection>
+          <PriceTitle>
+            Get started with Gscore today!
+          </PriceTitle>
 
-        <PriceList>
-          {
-            products.map((product:Product) => {
-              return <PriceCard key={product.id} {...product}/>
-            })
-          }
-        </PriceList>
+          <PriceList>
+            {
+              products.map((product:Product) => {
+                return <PriceCard key={product.id} {...product}/>
+              })
+            }
+          </PriceList>
 
-        <PriceDescription>
-          Have more than 10 sites?
-          <br/>
-          <Link href="/">
-            <a>Contact us</a>
-          </Link>
-        </PriceDescription>
-      </PriceSection>
+          <PriceDescription>
+            Have more than 10 sites?
+            <br/>
+            <Link href="/">
+              <a>Contact us</a>
+            </Link>
+          </PriceDescription>
+        </PriceSection>
+      }
     </>
   )
 }

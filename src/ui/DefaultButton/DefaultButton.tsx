@@ -1,7 +1,7 @@
 import {ButtonHTMLAttributes, FC} from "react"
 import styled from 'styled-components';
 import {colors} from "../../styles/colors";
-import LoaderIcon from "../../../public/LoaderIcon.svg"
+import {LoaderIcon} from "../../../public"
 
 interface DefaultButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
   theme: string;

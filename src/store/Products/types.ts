@@ -1,7 +1,3 @@
-export const enum ActionTypes {
-  ADD_PRODUCT = "ADD_PRODUCT",
-}
-
 export interface Product {
   id: number,
   sitesCount: number,
@@ -12,4 +8,10 @@ export interface Product {
     productId: number,
     price: string
   }>
+}
+
+export interface Products {
+  products: Array <Product>,
+  status?: string,
+  error?: string
 }

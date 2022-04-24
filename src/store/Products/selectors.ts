@@ -1,4 +1,4 @@
 import {RootState} from '../index';
-import {Product} from './types';
+import {Products} from './types';
 
-export const selectProducts = (state:RootState): Product[] => state.products
+export const selectProducts = (state:RootState): Products => state.products

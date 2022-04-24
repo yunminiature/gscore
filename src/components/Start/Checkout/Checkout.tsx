@@ -13,7 +13,7 @@ interface CheckoutProps{
 
 const Checkout:FC<CheckoutProps> = ({onStageChange}) => {
 
-  const products = useAppSelector(selectProducts)
+  const {products} = useAppSelector(selectProducts)
   const user = useAppSelector(selectUser)
   const productName = products.find(item => (item.id === user.package))?.name
   const productPrice = products.find(item => (item.id === user.package))?.prices.find(item => item.isActive)?.price

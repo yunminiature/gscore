@@ -1,12 +1,35 @@
 import {createReducer, PayloadAction} from '@reduxjs/toolkit';
-import {Product} from './types';
-import {addProducts} from "./actions";
+import {Products, Product} from './types';
+import {createAsyncThunk} from "@reduxjs/toolkit";
+import {getProducts} from "../../pages/api/Products";
 
-const initialState: Product[] = {} as Product[]
+const initialState: Products = {} as Products
 
-const productsReducer = createReducer<Product[]>(initialState, {
-  [addProducts.type]: (state, action: PayloadAction<Product[]>) => {
-    return action.payload
+export const fetchProducts = createAsyncThunk(
+  "Products/fetchProducts",
+  async function (_, {rejectWithValue}) {
+    try {
+      const response = await getProducts()
+      return response.data
+    }
+    catch (error: any) {
+      if (!error.message) throw error
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+const productsReducer = createReducer<Products>(initialState, {
+  [fetchProducts.pending.type]: (state) => {
+    state.status = "pending"
+  },
+  [fetchProducts.fulfilled.type]: (state, action: PayloadAction<Product[]>) => {
+    state.status = "resolved"
+    state.products = action.payload
+  },
+  [fetchProducts.rejected.type]: (state, action: PayloadAction<string>) => {
+    state.status = "rejected"
+    state.error = action.payload
   }
 })
 

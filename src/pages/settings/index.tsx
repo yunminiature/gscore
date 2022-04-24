@@ -13,7 +13,9 @@ const Settings:FC = () => {
 
   const [settingState, setSettingState] = useState(settingStateTypes.PERSONAL)
   const handleSettingState = (state:settingStateTypes) => {
-    setSettingState(state)
+    return function () {
+      setSettingState(state)
+    }
   }
 
   const settingStateMapping = {
@@ -25,11 +27,11 @@ const Settings:FC = () => {
     <SettingsSection>
       <SettingsTitle>Settings</SettingsTitle>
       <SettingsNavBar>
-        <SettingsNavItem state={(settingState==="PERSONAL")} onClick={()=>{handleSettingState(settingStateTypes.PERSONAL)}}>
+        <SettingsNavItem state={(settingState===settingStateTypes.PERSONAL)} onClick={handleSettingState(settingStateTypes.PERSONAL)}>
           <p>Personal info</p>
           <hr/>
         </SettingsNavItem>
-        <SettingsNavItem state={(settingState==="PASSWORD")} onClick={()=>{handleSettingState(settingStateTypes.PASSWORD)}}>
+        <SettingsNavItem state={(settingState===settingStateTypes.PASSWORD)} onClick={handleSettingState(settingStateTypes.PASSWORD)}>
           <p>Change password</p>
           <hr/>
         </SettingsNavItem>

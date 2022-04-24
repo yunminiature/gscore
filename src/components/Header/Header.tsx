@@ -2,13 +2,13 @@ import {FC, useState} from "react"
 import styled from "styled-components"
 import {useAppDispatch, useAppSelector} from '../../store'
 import {selectUser} from "../../store/User/selectors";
-import Logo from "../../../public/Logo.svg"
-import Up from "../../../public/Up.svg"
-import Down from "../../../public/Down.svg"
-import Menu from "../../../public/Menu.svg"
-import CloseIcon from "../../../public/CloseIcon.svg"
-import Settings from "../../../public/Settings.svg";
-import LogOut from "../../../public/Logout.svg"
+import {Logo} from "../../../public"
+import {Up} from "../../../public"
+import {Down} from "../../../public"
+import {Menu} from "../../../public"
+import {CloseIcon} from "../../../public"
+import {Settings} from "../../../public";
+import {Logout} from "../../../public"
 import Link from "next/link";
 import {colors} from "../../styles/colors";
 import {signOutAction} from "../../store/User/actions";
@@ -16,8 +16,10 @@ import {signOutAction} from "../../store/User/actions";
 
 const Header:FC = () => {
 
-  const user = useAppSelector(selectUser)
-  console.log(user)
+  const {
+    token,
+    user
+  } = useAppSelector(selectUser)
   const dispatch = useAppDispatch()
 
   const signOut = () => {
@@ -33,7 +35,7 @@ const Header:FC = () => {
     setNavPopUp(!navPopUp)
   }
 
-  const navBar = (user.token !== undefined)
+  const navBar = (token !== undefined)
     && <>
       <NavBar>
         <Link href="/">
@@ -41,7 +43,7 @@ const Header:FC = () => {
         </Link>
         <NavPopUp>
           <PopUpUser onClick={toggleNavPopUp}>
-            <p>{user.user.username}</p>
+            <p>{user.username}</p>
             {(navPopUp) ? <Up width="16px" height="9px" alt="open popup"/> : <Down width="16px" height="9px" alt="open popup"/>}
           </PopUpUser>
           {(navPopUp) &&
@@ -53,7 +55,7 @@ const Header:FC = () => {
                 </Link>
               </div>
               <div>
-                <LogOut alt="logout"/>
+                <Logout alt="logout"/>
                 <Link href="/">
                   <a onClick={signOut}>Logout</a>
                 </Link>
@@ -81,7 +83,7 @@ const Header:FC = () => {
               </SideBarMenuItem>
               <SideBarMenuItem>
                 <SideBarUsername onClick={toggleNavPopUp}>
-                  {user.user.username}
+                  {user.username}
                   {(navPopUp) ? <Up width="16px" height="9px" alt="open popup"/> : <Down width="16px" height="9px" alt="open popup"/>}
                 </SideBarUsername>
                 {navPopUp
@@ -93,7 +95,7 @@ const Header:FC = () => {
                         </Link>
                       </SideBarSubmenuItem>
                       <SideBarSubmenuItem>
-                        <LogOut alt="logout"/>
+                        <Logout alt="logout"/>
                         <Link href="/">
                           <a onClick={signOut}>Logout</a>
                         </Link>

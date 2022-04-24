@@ -1,10 +1,10 @@
 import {FC} from "react"
 import styled from 'styled-components'
 import Link from "next/link";
-import Logo from "../../../public/Logo.svg"
-import Facebook from "../../../public/Facebook.svg"
-import Twitter from "../../../public/Twitter.svg"
-import LinkedIn from "../../../public/LinkedIn.svg"
+import {Logo} from "../../../public"
+import {Facebook} from "../../../public"
+import {Twitter} from "../../../public"
+import {LinkedIn} from "../../../public"
 import {colors} from "../../styles/colors";
 
 const Footer:FC = () => {

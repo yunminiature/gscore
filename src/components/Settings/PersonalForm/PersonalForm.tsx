@@ -1,13 +1,13 @@
-import {FC, useState} from "react";
+import {FC} from "react";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {EMAIL_REGEX, USER_REGEX} from "../../../constants";
 import {DefaultInput} from "../../../ui";
 import {DefaultButton} from "../../../ui";
 import styled from "styled-components";
 import {colors} from "../../../styles/colors";
-import {updateData} from "../../../pages/api/User";
-import {useAppDispatch} from "../../../store";
-import {updateDataAction} from "../../../store/User/actions";
+import {updateDataAction} from "../../../store/User/reducer";
+import {selectUser} from "../../../store/User/selectors";
+import {useAppDispatch, useAppSelector} from "../../../store";
 
 interface UpdatePersonal{
   username: string;
@@ -17,8 +17,7 @@ interface UpdatePersonal{
 const PersonalForm:FC = () => {
 
   const dispatch = useAppDispatch()
-  const [isLoading, setLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState("")
+  const {status, error} = useAppSelector(selectUser)
 
   const {handleSubmit, control, reset, formState: {errors, isValid}} = useForm<UpdatePersonal>(
     {
@@ -31,21 +30,12 @@ const PersonalForm:FC = () => {
   )
   const onSubmit: SubmitHandler<UpdatePersonal> = data =>{
     const {username, email} = data;
-    setLoading(true)
-    updateData({
+    dispatch(updateDataAction({
       email,
       username
-    })
-      .then((response) => {
-        dispatch(updateDataAction(response.data))
-        setErrorMessage("")
-      })
-      .catch((error) => {
-        setErrorMessage(error.message)
-      })
+    }))
       .finally(() => {
         reset()
-        setLoading(false)
       })
   }
 
@@ -102,8 +92,8 @@ const PersonalForm:FC = () => {
             />
           )}
         />
-        <ErrorMessage>{errorMessage}</ErrorMessage>
-        <DefaultButton type="submit" theme="primary" disabled={!isValid} value="Save" isLoading={isLoading}/>
+        <ErrorMessage>{error}</ErrorMessage>
+        <DefaultButton type="submit" theme="primary" disabled={!isValid} value="Save" isLoading={status==="pending"}/>
       </form>
     </Form>
   )

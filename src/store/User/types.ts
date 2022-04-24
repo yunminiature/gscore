@@ -1,8 +1,6 @@
 export const enum ActionTypes {
   ADD_PACKAGE = "ADD_PACKAGE",
-  SIGN_IN = "SIGN_IN",
-  SIGN_OUT = "SIGN_OUT",
-  UPDATE_DATA = "UPDATE_DATA"
+  SIGN_OUT = "SIGN_OUT"
 }
 
 export interface SignInDto {
@@ -30,5 +28,7 @@ export interface UserDto{
 export interface User {
   token: string,
   package: number,
-  user: UserDto
+  user: UserDto,
+  status: string,
+  error: string
 }

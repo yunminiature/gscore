@@ -4,7 +4,7 @@ import styled from "styled-components"
 import {colors} from "../../styles/colors";
 import {useAppDispatch} from "../../store";
 import {addPackage} from "../../store/User/actions";
-import CheckIcon from "../../../public/СheckIcon.svg"
+import {СheckIcon} from "../../../public"
 import {DefaultButton} from "../../ui";
 import {Product} from "../../store/Products/types";
 
@@ -25,19 +25,19 @@ const PriceCard:FC<Product> = ({id, sitesCount, name, prices}) =>{
       <hr/>
       <CardProperties>
         <CardProperty>
-          <CheckIcon width="26px" height="26px" alt="checkicon"/>
+          <СheckIcon width="26px" height="26px" alt="checkicon"/>
           <p>All features for {sitesCount} sites</p>
         </CardProperty>
         <CardProperty>
-          <CheckIcon width="26px" height="26px" alt="checkicon"/>
+          <СheckIcon width="26px" height="26px" alt="checkicon"/>
           <p>Special introductory pricing</p>
         </CardProperty>
         <CardProperty>
-          <CheckIcon width="26px" height="26px" alt="checkicon"/>
+          <СheckIcon width="26px" height="26px" alt="checkicon"/>
           <p>Unlimited Pages and Keywords</p>
         </CardProperty>
         <CardProperty>
-          <CheckIcon width="26px" height="26px" alt="checkicon"/>
+          <СheckIcon width="26px" height="26px" alt="checkicon"/>
           <p>Billed annually</p>
         </CardProperty>
       </CardProperties>

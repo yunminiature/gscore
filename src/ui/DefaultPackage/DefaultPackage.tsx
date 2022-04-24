@@ -1,7 +1,7 @@
 import {FC} from "react";
-import Image from "next/image";
 import styled from "styled-components";
 import {colors} from "../../styles/colors";
+import {Basket} from "../../../public"
 
 interface DefaultPackage{
   headerTitle?: string,
@@ -10,7 +10,7 @@ interface DefaultPackage{
   price?: string
 }
 
-const DefaultPackage:FC<DefaultPackage> = ({headerTitle, headerDescription, packageName, price, children}) => {
+const DefaultPackage:FC<DefaultPackage> = ({headerTitle, headerDescription, packageName, price}) => {
   return(
     <>
       <CheckoutHeader>
@@ -24,7 +24,7 @@ const DefaultPackage:FC<DefaultPackage> = ({headerTitle, headerDescription, pack
         </CheckoutTitle>
         <CheckoutItem>
           <p>{packageName}</p>
-          <p>$ {price} <Image src="/Basket.svg" width="20px" height="20px" alt="bascet"/></p>
+          <p>$ {price} <Basket alt="basket"/></p>
         </CheckoutItem>
       </CheckoutBody>
     </>

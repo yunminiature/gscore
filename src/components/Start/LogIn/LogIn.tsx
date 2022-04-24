@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import {FC, useEffect} from "react";
 import {useCookies} from "react-cookie"
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {DefaultForm} from "../../../ui";
@@ -6,11 +6,11 @@ import {DefaultInput} from "../../../ui";
 import {DefaultButton} from "../../../ui";
 import styled from "styled-components";
 import {colors} from "../../../styles/colors";
-import {signIn} from "../../../pages/api/User";
-import {signInAction} from "../../../store/User/actions";
+import {signInAction} from "../../../store/User/reducer";
 import {EMAIL_REGEX, PASSWORD_REGEX} from "../../../constants";
-import {useAppDispatch} from "../../../store";
+import {useAppDispatch, useAppSelector} from "../../../store";
 import {FormStageTypes} from "../../../pages/start";
+import {selectUser} from "../../../store/User/selectors";
 
 interface LogInProps{
   onStageChange:(stage:FormStageTypes) => void
@@ -25,11 +25,17 @@ interface LogIn{
 const LogIn:FC<LogInProps> = ({onStageChange}) => {
 
   const dispatch = useAppDispatch()
+  const {
+    token,
+    status,
+    error
+  } = useAppSelector(selectUser)
 
   const [cookie, setCookie] = useCookies(["user"])
-  const [errorMessage, setErrorMessage] = useState("")
 
-  const [isLoading, setLoading] = useState(false)
+  useEffect(() => {
+    status==="resolved" && onStageChange(FormStageTypes.CHECKOUT)
+  }, [status])
 
   const {handleSubmit, control, reset, formState: {errors, isValid}} = useForm<LogIn>(
     {
@@ -42,26 +48,19 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
   )
   const onSubmit: SubmitHandler<LogIn> = data => {
     const {email, password} = data;
-    setLoading(true)
-    signIn({
+    dispatch(signInAction({
       email,
       password
-    })
-      .then((response) => {
-        dispatch(signInAction(response.data))
-        setCookie("user", JSON.stringify(response.data.token), {
+    }))
+      .then(() => {
+        setCookie("user", JSON.stringify(token), {
           path: "/",
           maxAge: 3600,
           sameSite: true,
         })
-        onStageChange(FormStageTypes.CHECKOUT)
       })
-      .catch((error) => {
-        setErrorMessage(error.message)
+      .catch(() => {
         reset()
-      })
-      .finally(() => {
-        setLoading(false)
       })
   }
 
@@ -119,8 +118,8 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
               />
             )}
           />
-          <ErrorMessage>{errorMessage}</ErrorMessage>
-          <DefaultButton type="submit" theme="primary" value="Log in" disabled={!isValid} isLoading={isLoading}/>
+          <ErrorMessage>{error}</ErrorMessage>
+          <DefaultButton type="submit" theme="primary" value="Log in" disabled={!isValid} isLoading={status==="pending"}/>
         </form>
       </DefaultForm>
   )
