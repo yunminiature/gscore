@@ -1,6 +1,7 @@
 import * as React from "react";
+import {SVGProps} from "react";
 
-const SvgFacebook = (props) => (
+const SvgFacebook = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width={14}
     height={25}

@@ -25,19 +25,19 @@ const PriceCard:FC<Product> = ({id, sitesCount, name, prices}) =>{
       <hr/>
       <CardProperties>
         <CardProperty>
-          <СheckIcon width="26px" height="26px" alt="checkicon"/>
+          <СheckIcon width="26px" height="26px"/>
           <p>All features for {sitesCount} sites</p>
         </CardProperty>
         <CardProperty>
-          <СheckIcon width="26px" height="26px" alt="checkicon"/>
+          <СheckIcon width="26px" height="26px"/>
           <p>Special introductory pricing</p>
         </CardProperty>
         <CardProperty>
-          <СheckIcon width="26px" height="26px" alt="checkicon"/>
+          <СheckIcon width="26px" height="26px"/>
           <p>Unlimited Pages and Keywords</p>
         </CardProperty>
         <CardProperty>
-          <СheckIcon width="26px" height="26px" alt="checkicon"/>
+          <СheckIcon width="26px" height="26px"/>
           <p>Billed annually</p>
         </CardProperty>
       </CardProperties>

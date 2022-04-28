@@ -5,19 +5,18 @@ import {DefaultInput} from "../../../ui";
 import {DefaultButton} from "../../../ui";
 import styled from "styled-components";
 import {colors} from "../../../styles/colors";
-import {updateDataAction} from "../../../store/User/reducer";
-import {selectUser} from "../../../store/User/selectors";
-import {useAppDispatch, useAppSelector} from "../../../store";
+import {updateDataAsyncAction} from "../../../store/User/reducer";
+import {useAppDispatch} from "../../../store";
+import {User} from "../../../store/User/types";
 
 interface UpdatePersonal{
   username: string;
   email: string;
 }
 
-const PersonalForm:FC = () => {
+const PersonalForm:FC<User> = ({updateDataLoading, error}) => {
 
   const dispatch = useAppDispatch()
-  const {status, error} = useAppSelector(selectUser)
 
   const {handleSubmit, control, reset, formState: {errors, isValid}} = useForm<UpdatePersonal>(
     {
@@ -30,7 +29,7 @@ const PersonalForm:FC = () => {
   )
   const onSubmit: SubmitHandler<UpdatePersonal> = data =>{
     const {username, email} = data;
-    dispatch(updateDataAction({
+    dispatch(updateDataAsyncAction({
       email,
       username
     }))
@@ -93,7 +92,7 @@ const PersonalForm:FC = () => {
           )}
         />
         <ErrorMessage>{error}</ErrorMessage>
-        <DefaultButton type="submit" theme="primary" disabled={!isValid} value="Save" isLoading={status==="pending"}/>
+        <DefaultButton type="submit" theme="primary" disabled={!isValid} value="Save" isLoading={updateDataLoading}/>
       </form>
     </Form>
   )

@@ -13,7 +13,7 @@ import {signIn, updateData} from "../../pages/api/User";
 
 const initialState: User = {} as User
 
-export const signInAction = createAsyncThunk(
+export const signInAsyncAction = createAsyncThunk(
   "User/signInAction",
   async function (userData:SignInDto, {rejectWithValue}) {
     const {email, password} = userData
@@ -28,7 +28,7 @@ export const signInAction = createAsyncThunk(
   }
 )
 
-export const updateDataAction = createAsyncThunk(
+export const updateDataAsyncAction = createAsyncThunk(
   "User/updateDataAction",
   async function (userData:Omit<UserDto, "id">, {rejectWithValue}) {
     const {username, email} = userData
@@ -45,22 +45,22 @@ export const updateDataAction = createAsyncThunk(
 
 const userReducer = createReducer<User>(initialState, {
   [addPackage.type]: (state, action: PayloadAction<number>) => {
-    state.package = action.payload
+    state.userPackage = action.payload
   },
 
-  [signInAction.pending.type]: (state) => {
-    state.status = "pending"
+  [signInAsyncAction.pending.type]: (state) => {
+    state.signInLoading = true
     state.error = ""
   },
 
-  [signInAction.fulfilled.type]: (state, action: PayloadAction<User>) => {
-    state.status = "resolved"
+  [signInAsyncAction.fulfilled.type]: (state, action: PayloadAction<User>) => {
+    state.signInLoading = false
     state.token = action.payload.token
     state.user = action.payload.user
   },
 
-  [signInAction.rejected.type]: (state, action: PayloadAction<string>) => {
-    state.status = "rejected"
+  [signInAsyncAction.rejected.type]: (state, action: PayloadAction<string>) => {
+    state.signInLoading = false
     state.error = action.payload
   },
 
@@ -68,19 +68,19 @@ const userReducer = createReducer<User>(initialState, {
     return {} as User
   },
 
-  [updateDataAction.pending.type]: (state) => {
-    state.status = "pending"
+  [updateDataAsyncAction.pending.type]: (state) => {
+    state.updateDataLoading = true
     state.error = ""
   },
 
-  [updateDataAction.fulfilled.type]: (state, action: PayloadAction<Omit<UserDto, "id">>) => {
-    state.status = "resolved"
+  [updateDataAsyncAction.fulfilled.type]: (state, action: PayloadAction<Omit<UserDto, "id">>) => {
+    state.updateDataLoading = false
     state.user.email = action.payload.email
     state.user.username = action.payload.username
   },
 
-  [updateDataAction.rejected.type]: (state, action: PayloadAction<string>) => {
-    state.status = "rejected"
+  [updateDataAsyncAction.rejected.type]: (state, action: PayloadAction<string>) => {
+    state.updateDataLoading = false
     state.error = action.payload
   }
 })

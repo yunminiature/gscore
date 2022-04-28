@@ -6,5 +6,10 @@ export enum PATHS {
   UPDATE_DATA = "users/",
   UPDATE_PASSWORD = "users/update-password",
 
-  GET_PRODUCTS = "products"
+  GET_PRODUCTS = "products",
+
+  GET_SUBSCRIBES = "subscribe/self",
+  BUY_SUBSCRIBE = "payments/buy",
+
+  GET_CODES = "code/self"
 }

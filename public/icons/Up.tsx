@@ -1,6 +1,7 @@
 import * as React from "react";
+import {SVGProps} from "react";
 
-const SvgDown = (props) => (
+const SvgUp = (props:SVGProps<SVGSVGElement>) => (
   <svg
     width={17}
     height={10}
@@ -9,7 +10,7 @@ const SvgDown = (props) => (
     {...props}
   >
     <path
-      d="m1.312 1.5 7 7 7-7"
+      d="m15.312 8.5-7-7-7 7"
       stroke="#fff"
       strokeWidth={2}
       strokeLinecap="round"
@@ -18,4 +19,4 @@ const SvgDown = (props) => (
   </svg>
 );
 
-export default SvgDown;
+export default SvgUp;

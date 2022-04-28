@@ -5,7 +5,7 @@ import Footer from "../Footer/Footer";
 
 const Layout:FC = ({children}) => {
   return(
-    <>
+    <LayoutStyle>
       <Container>
         <Header/>
         {children}
@@ -14,11 +14,15 @@ const Layout:FC = ({children}) => {
       <Container>
         <Footer/>
       </Container>
-    </>
+    </LayoutStyle>
 
 
   )
 }
+
+const LayoutStyle = styled.div`
+  overflow: hidden;
+`
 
 const Container = styled.div`
   max-width: 1440px;

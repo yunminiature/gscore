@@ -24,7 +24,7 @@ const DefaultPackage:FC<DefaultPackage> = ({headerTitle, headerDescription, pack
         </CheckoutTitle>
         <CheckoutItem>
           <p>{packageName}</p>
-          <p>$ {price} <Basket alt="basket"/></p>
+          <p>$ {price} <Basket/></p>
         </CheckoutItem>
       </CheckoutBody>
     </>

@@ -38,24 +38,24 @@ const Header:FC = () => {
   const navBar = (token !== undefined)
     && <>
       <NavBar>
-        <Link href="/">
+        <Link href="/subscriptions">
           <a>My subscriptions</a>
         </Link>
         <NavPopUp>
           <PopUpUser onClick={toggleNavPopUp}>
             <p>{user.username}</p>
-            {(navPopUp) ? <Up width="16px" height="9px" alt="open popup"/> : <Down width="16px" height="9px" alt="open popup"/>}
+            {(navPopUp) ? <Up width="16px" height="9px"/> : <Down width="16px" height="9px"/>}
           </PopUpUser>
           {(navPopUp) &&
             <PopUp>
               <div>
-                <Settings alt="settings"/>
+                <Settings/>
                 <Link href="/settings">
                   <a>Settings</a>
                 </Link>
               </div>
               <div>
-                <Logout alt="logout"/>
+                <Logout/>
                 <Link href="/">
                   <a onClick={signOut}>Logout</a>
                 </Link>
@@ -65,37 +65,37 @@ const Header:FC = () => {
         </NavPopUp>
       </NavBar>
       <SideBar>
-        <SideBarIcon onClick={toggleSideBar}><Menu width="24px" height="24px" alt="open menu"/></SideBarIcon>
+        <SideBarIcon onClick={toggleSideBar}><Menu width="24px" height="24px" /></SideBarIcon>
         {sideBar &&
           <SidePopUp>
             <SideBarHeader>
-              <CloseIcon width="20px" height="20px" alt="close menu" onClick={toggleSideBar}/>
+              <CloseIcon width="20px" height="20px" onClick={toggleSideBar}/>
               <Link href="/">
-                <LogoLink><Logo width="170px" height="42px" alt="gscore"/></LogoLink>
+                <LogoLink><Logo width="170px" height="42px" /></LogoLink>
               </Link>
             </SideBarHeader>
             <div>
             <ul>
               <SideBarMenuItem>
-                <Link href="/subscribes">
+                <Link href="/subscriptions">
                   <a>My subscriptions</a>
                 </Link>
               </SideBarMenuItem>
               <SideBarMenuItem>
                 <SideBarUsername onClick={toggleNavPopUp}>
                   {user.username}
-                  {(navPopUp) ? <Up width="16px" height="9px" alt="open popup"/> : <Down width="16px" height="9px" alt="open popup"/>}
+                  {(navPopUp) ? <Up width="16px" height="9px"/> : <Down width="16px" height="9px"/>}
                 </SideBarUsername>
                 {navPopUp
                   && <SideBarSubmenu>
                       <SideBarSubmenuItem>
-                        <Settings alt="settings"/>
+                        <Settings/>
                         <Link href="/settings">
                           <a>Settings</a>
                         </Link>
                       </SideBarSubmenuItem>
                       <SideBarSubmenuItem>
-                        <Logout alt="logout"/>
+                        <Logout/>
                         <Link href="/">
                           <a onClick={signOut}>Logout</a>
                         </Link>
@@ -114,7 +114,7 @@ const Header:FC = () => {
   return(
     <HeaderLayout>
       <Link href="/">
-        <LogoLink><Logo width="170px" height="42px" alt="gscore"/></LogoLink>
+        <LogoLink><Logo width="170px" height="42px"/></LogoLink>
       </Link>
       {navBar}
     </HeaderLayout>

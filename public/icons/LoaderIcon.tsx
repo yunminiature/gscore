@@ -1,6 +1,7 @@
 import * as React from "react";
+import {SVGProps} from "react";
 
-const SvgLoaderIcon = (props) => (
+const SvgLoaderIcon = (props:SVGProps<SVGSVGElement>) => (
   <svg
     width={18}
     height={18}

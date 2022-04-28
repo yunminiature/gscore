@@ -3,13 +3,15 @@ import styled from "styled-components";
 import {colors} from "../../styles/colors";
 import PersonalForm from "../../components/Settings/PersonalForm";
 import PasswordForm from "../../components/Settings/PasswordForm";
+import store from "../../store";
+import {User} from "../../store/User/types";
 
 export const enum settingStateTypes {
   PERSONAL = "PERSONAL",
   PASSWORD = "PASSWORD"
 }
 
-const Settings:FC = () => {
+const Settings:FC<{data:User}> = (data) => {
 
   const [settingState, setSettingState] = useState(settingStateTypes.PERSONAL)
   const handleSettingState = (state:settingStateTypes) => {
@@ -19,7 +21,7 @@ const Settings:FC = () => {
   }
 
   const settingStateMapping = {
-    PERSONAL: <PersonalForm/>,
+    PERSONAL: <PersonalForm {...data.data}/>,
     PASSWORD: <PasswordForm/>
   }
 
@@ -40,6 +42,15 @@ const Settings:FC = () => {
       {settingStateMapping[settingState]}
     </SettingsSection>
   )
+}
+
+export async function getServerSideProps(){
+  const data = store.getState().user
+  return {
+    props: {
+      data
+    }
+  }
 }
 
 const SettingsSection = styled.section`

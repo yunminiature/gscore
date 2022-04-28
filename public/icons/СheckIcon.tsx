@@ -1,6 +1,7 @@
 import * as React from "react";
+import {SVGProps} from "react";
 
-const SvgHeckIcon = (props) => (
+const СheckIcon = (props:SVGProps<SVGSVGElement>) => (
   <svg
     width={26}
     height={26}
@@ -17,4 +18,4 @@ const SvgHeckIcon = (props) => (
   </svg>
 );
 
-export default SvgHeckIcon;
+export default СheckIcon;

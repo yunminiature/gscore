@@ -5,7 +5,9 @@ import CreateAccount from "../../components/Start/CreateAccount";
 import LogIn from "../../components/Start/LogIn";
 import Checkout from "../../components/Start/Checkout";
 import Start from "../../components/Start/Start";
-import {useAppSelector} from "../../store";
+import store, {useAppSelector} from "../../store";
+import {Products} from "../../store/Products/types";
+import {fetchProducts} from "../../store/Products/reducer";
 import {selectUser} from "../../store/User/selectors";
 
 export const enum FormStageTypes {
@@ -15,11 +17,11 @@ export const enum FormStageTypes {
   START = "START"
 }
 
-const StartPage:FC = () => {
+const StartPage:FC<{data: Products}> = ({data}) => {
 
-  const user = useAppSelector(selectUser)
+  const {token} = useAppSelector(selectUser)
 
-  const initialFormStage = user.token ? FormStageTypes.CHECKOUT : FormStageTypes.CREATE_ACCOUNT
+  const initialFormStage = token ? FormStageTypes.CHECKOUT : FormStageTypes.CREATE_ACCOUNT
   const [formStage, setFormStage] = useState(initialFormStage)
   const handleFormStage = (stage:FormStageTypes) => {
     setFormStage(stage)
@@ -28,8 +30,8 @@ const StartPage:FC = () => {
   const formStageMapping = {
     CREATE_ACCOUNT: <CreateAccount onStageChange={handleFormStage}/>,
     LOG_IN: <LogIn onStageChange={handleFormStage}/>,
-    CHECKOUT: <Checkout onStageChange={handleFormStage}/>,
-    START: <Start/>
+    CHECKOUT: <Checkout onStageChange={handleFormStage} products={data.products}/>,
+    START: <Start products={data.products}/>
   }
 
   return(
@@ -37,7 +39,7 @@ const StartPage:FC = () => {
       {
         (formStage === FormStageTypes.START)
         ?
-          <Start/>
+          <Start products={data.products}/>
         :
           <>
             <StartNavBar>
@@ -59,6 +61,16 @@ const StartPage:FC = () => {
       }
     </StartSection>
   )
+}
+
+export const getServerSideProps = async () => {
+  await store.dispatch(fetchProducts())
+  const data = await store.getState().products
+  return {
+    props: {
+      data
+    }
+  }
 }
 
 const StartSection = styled.div`

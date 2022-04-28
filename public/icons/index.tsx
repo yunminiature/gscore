@@ -1,13 +1,11 @@
 export { default as Basket } from "./Basket";
 export { default as CloseIcon } from "./CloseIcon";
 export { default as Down } from "./Down";
-export { default as Facebook } from "./Facebook";
-export { default as LinkedIn } from "./LinkedIn";
 export { default as LoaderIcon } from "./LoaderIcon";
-export { default as Logo } from "./Logo";
 export { default as Logout } from "./Logout";
 export { default as Menu } from "./Menu";
 export { default as Settings } from "./Settings";
-export { default as Twitter } from "./Twitter";
 export { default as Up } from "./Up";
 export { default as СheckIcon } from "./СheckIcon";
+export { default as Arrow } from "./Arrow";
+export { default as CheckBox } from "./CheckBox";

@@ -1,4 +1,4 @@
-import {FC, useEffect} from "react";
+import {FC} from "react";
 import {useCookies} from "react-cookie"
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {DefaultForm} from "../../../ui";
@@ -6,7 +6,7 @@ import {DefaultInput} from "../../../ui";
 import {DefaultButton} from "../../../ui";
 import styled from "styled-components";
 import {colors} from "../../../styles/colors";
-import {signInAction} from "../../../store/User/reducer";
+import {signInAsyncAction} from "../../../store/User/reducer";
 import {EMAIL_REGEX, PASSWORD_REGEX} from "../../../constants";
 import {useAppDispatch, useAppSelector} from "../../../store";
 import {FormStageTypes} from "../../../pages/start";
@@ -25,17 +25,9 @@ interface LogIn{
 const LogIn:FC<LogInProps> = ({onStageChange}) => {
 
   const dispatch = useAppDispatch()
-  const {
-    token,
-    status,
-    error
-  } = useAppSelector(selectUser)
+  const {token, signInLoading, error} = useAppSelector(selectUser)
 
   const [cookie, setCookie] = useCookies(["user"])
-
-  useEffect(() => {
-    status==="resolved" && onStageChange(FormStageTypes.CHECKOUT)
-  }, [status])
 
   const {handleSubmit, control, reset, formState: {errors, isValid}} = useForm<LogIn>(
     {
@@ -48,7 +40,7 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
   )
   const onSubmit: SubmitHandler<LogIn> = data => {
     const {email, password} = data;
-    dispatch(signInAction({
+    dispatch(signInAsyncAction({
       email,
       password
     }))
@@ -61,6 +53,9 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
       })
       .catch(() => {
         reset()
+      })
+      .finally(() => {
+        onStageChange(FormStageTypes.CHECKOUT)
       })
   }
 
@@ -119,7 +114,7 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
             )}
           />
           <ErrorMessage>{error}</ErrorMessage>
-          <DefaultButton type="submit" theme="primary" value="Log in" disabled={!isValid} isLoading={status==="pending"}/>
+          <DefaultButton type="submit" theme="primary" value="Log in" disabled={!isValid} isLoading={signInLoading}/>
         </form>
       </DefaultForm>
   )

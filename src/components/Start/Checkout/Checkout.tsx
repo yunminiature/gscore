@@ -1,25 +1,30 @@
 import {FC} from "react";
 import {DefaultButton} from "../../../ui";
 import styled from "styled-components";
-import {useAppSelector} from "../../../store";
-import {selectProducts} from "../../../store/Products/selectors";
-import {selectUser} from "../../../store/User/selectors";
 import DefaultPackage from "../../../ui/DefaultPackage";
 import {FormStageTypes} from "../../../pages/start";
+import {buySubscribe} from "../../../pages/api/Payments";
+import {Product} from "../../../store/Products/types";
+import {useAppSelector} from "../../../store";
+import {selectUser} from "../../../store/User/selectors";
 
 interface CheckoutProps{
-  onStageChange:(stage:FormStageTypes) => void
+  onStageChange:(stage:FormStageTypes) => void,
+  products: Product[]
 }
 
-const Checkout:FC<CheckoutProps> = ({onStageChange}) => {
+const Checkout:FC<CheckoutProps> = ({onStageChange, products}) => {
 
-  const {products} = useAppSelector(selectProducts)
-  const user = useAppSelector(selectUser)
-  const productName = products.find(item => (item.id === user.package))?.name
-  const productPrice = products.find(item => (item.id === user.package))?.prices.find(item => item.isActive)?.price
+  const {userPackage} = useAppSelector(selectUser)
+
+  const productName = products.find(product => (product.id === userPackage))?.name
+  const productPrice = products.find(product => (product.id === userPackage))?.prices.find(product => product.isActive)?.price
 
   const handleStage = () => {
-    onStageChange(FormStageTypes.START)
+    buySubscribe({priceId: userPackage})
+      .then(() => {
+        onStageChange(FormStageTypes.START)
+      })
   }
 
   return (
@@ -33,7 +38,7 @@ const Checkout:FC<CheckoutProps> = ({onStageChange}) => {
         <h3>Total</h3>
         <p>$ {productPrice}</p>
       </TotalPrice>
-      <DefaultButton type="button" theme="primary" value="Purchase" onClick={handleStage}/>
+      <DefaultButton type="button" theme="primary" value="Purchase" onClick={handleStage} isLoading={status === "pending"}/>
     </>
   )
 }

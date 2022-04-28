@@ -12,7 +12,7 @@ const Footer:FC = () => {
   return(
     <LayoutFooter>
       <FooterColumn>
-        <Logo width="170px" height="42px" alt="gscore"/>
+        <Logo width="170px" height="42px"/>
         <FooterDescription>Ut enim аd minim veniam quis nostrud exercitation еа commodo</FooterDescription>
       </FooterColumn>
       <hr/>
@@ -28,9 +28,9 @@ const Footer:FC = () => {
         </FooterCopyright>
 
         <FooterSocial>
-          <li><Facebook width="14px" height="25px" alt="facebook"/></li>
-          <li><Twitter width="25px" height="21px" alt="twitter"/></li>
-          <li><LinkedIn width="25px" height="24px" alt="linkedin"/></li>
+          <li><Facebook width="14px" height="25px"/></li>
+          <li><Twitter width="25px" height="21px"/></li>
+          <li><LinkedIn width="25px" height="24px"/></li>
         </FooterSocial>
       </FooterBottom>
     </LayoutFooter>

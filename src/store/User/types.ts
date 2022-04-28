@@ -20,15 +20,14 @@ export interface UpdatePassword{
 export interface UserDto{
   id: number,
   email: string,
-  username: string,
-  //sub:[],
-  //codes:[]
+  username: string
 }
 
 export interface User {
   token: string,
-  package: number,
+  userPackage: number,
   user: UserDto,
-  status: string,
-  error: string
+  signInLoading?: boolean,
+  updateDataLoading?: boolean,
+  error?: string
 }

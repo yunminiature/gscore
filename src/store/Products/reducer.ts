@@ -21,14 +21,14 @@ export const fetchProducts = createAsyncThunk(
 
 const productsReducer = createReducer<Products>(initialState, {
   [fetchProducts.pending.type]: (state) => {
-    state.status = "pending"
+    state.isLoading = true
   },
   [fetchProducts.fulfilled.type]: (state, action: PayloadAction<Product[]>) => {
-    state.status = "resolved"
+    state.isLoading = false
     state.products = action.payload
   },
   [fetchProducts.rejected.type]: (state, action: PayloadAction<string>) => {
-    state.status = "rejected"
+    state.isLoading = false
     state.error = action.payload
   }
 })

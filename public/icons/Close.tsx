@@ -1,16 +1,17 @@
 import * as React from "react";
+import { SVGProps } from "react";
 
-const SvgUp = (props) => (
+const SvgClose = (props: SVGProps<SVGSVGElement>) => (
   <svg
-    width={17}
-    height={10}
+    width={20}
+    height={20}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <path
-      d="m15.312 8.5-7-7-7 7"
-      stroke="#fff"
+      d="M1 19 19 1M19 19 1 1"
+      stroke="#FF5A65"
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -18,4 +19,4 @@ const SvgUp = (props) => (
   </svg>
 );
 
-export default SvgUp;
+export default SvgClose;

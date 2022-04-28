@@ -12,6 +12,6 @@ export interface Product {
 
 export interface Products {
   products: Array <Product>,
-  status?: string,
-  error?: string
+  isLoading: boolean,
+  error: string
 }

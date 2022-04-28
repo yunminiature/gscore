@@ -1,25 +1,15 @@
-import {FC, useEffect} from "react"
+import {FC} from "react"
 import styled from "styled-components"
 import {colors} from "../../styles/colors";
 import Link from "next/link";
 import PriceCard from "../PriceCard/PriceCard";
-import {useAppDispatch, useAppSelector} from '../../store'
-import {Product} from "../../store/Products/types";
-import {selectProducts} from "../../store/Products/selectors";
-import {fetchProducts} from "../../store/Products/reducer";
+import {Product, Products} from "../../store/Products/types";
 
-const Price:FC = () => {
-
-  const dispatch = useAppDispatch()
-  const {products, status} = useAppSelector(selectProducts)
-
-  useEffect(() => {
-    dispatch(fetchProducts())
-  }, [dispatch])
+const Price:FC<Products> = ({isLoading, products}) => {
 
   return(
     <>
-      {status==="resolved" &&
+      {!isLoading &&
         <PriceSection>
           <PriceTitle>
             Get started with Gscore today!

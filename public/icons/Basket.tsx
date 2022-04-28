@@ -1,6 +1,7 @@
 import * as React from "react";
+import {SVGProps} from "react";
 
-const SvgBasket = (props) => (
+const SvgBasket = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width={20}
     height={21}
