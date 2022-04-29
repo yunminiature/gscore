@@ -6,7 +6,7 @@ import {FormStageTypes} from "../../../pages/start";
 import {buySubscribe} from "../../../pages/api/Payments";
 import {Product} from "../../../store/Products/types";
 import {useAppSelector} from "../../../store";
-import {selectUser} from "../../../store/User/selectors";
+import {selectPackage} from "../../../store/User/selectors";
 
 interface CheckoutProps{
   onStageChange:(stage:FormStageTypes) => void,
@@ -15,7 +15,7 @@ interface CheckoutProps{
 
 const Checkout:FC<CheckoutProps> = ({onStageChange, products}) => {
 
-  const {userPackage} = useAppSelector(selectUser)
+  const userPackage = useAppSelector(selectPackage)
 
   const productName = products.find(product => (product.id === userPackage))?.name
   const productPrice = products.find(product => (product.id === userPackage))?.prices.find(product => product.isActive)?.price

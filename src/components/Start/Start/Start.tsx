@@ -5,14 +5,14 @@ import {useAppSelector} from "../../../store";
 import {useRouter} from "next/router";
 import {DefaultPackage} from "../../../ui";
 import {Product} from "../../../store/Products/types";
-import {selectUser} from "../../../store/User/selectors";
+import {selectPackage} from "../../../store/User/selectors";
 
 interface StartProps{
   products: Product[]
 }
 
 const Start:FC<StartProps> = ({products}) => {
-  const {userPackage} = useAppSelector(selectUser)
+  const userPackage = useAppSelector(selectPackage)
 
   const router = useRouter();
   const handleClick = () => {

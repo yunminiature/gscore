@@ -2,31 +2,34 @@ import {FC, useEffect, useState} from "react";
 import Subscribes from "../../components/Subscriptions/Subscribes";
 import {DefaultButton} from "../../ui";
 import styled from "styled-components";
-import {useAppSelector} from "../../store";
+import store, {useAppSelector} from "../../store";
 import {selectUser} from "../../store/User/selectors";
 import {useRouter} from "next/router";
-import {getSubscribes} from "../api/Subscribes";
-import {getCodes} from "../api/Codes";
+import {unwrapResult} from "@reduxjs/toolkit";
+import {fetchSubscribes} from "../../store/Subscribes/thunk";
+import {fetchCodes} from "../../store/Codes/thunk";
 
 
 const SubscriptionsPage:FC = () => {
 
   const router = useRouter();
-  const user = useAppSelector(selectUser)
+  const homeRouter = () => {
+    router.push ("/")
+  }
 
-  const [subscribes, setSubscibes] = useState([])
+  const user = useAppSelector(selectUser)
+  const [subscribes, setSubscribes] = useState([])
   const [codes, setCodes] = useState([])
 
   useEffect(() => {
-    getSubscribes()
-      .then((response) => {
-        setSubscibes(response.data)
-      })
-    getCodes()
-      .then((response) => {
-        setCodes(response.data)
-      })
-  }, [])
+    (async () => {
+      const subscribesData = await store.dispatch(fetchSubscribes()).then(unwrapResult)
+      setSubscribes(subscribesData)
+
+      const codesData = await store.dispatch(fetchCodes()).then(unwrapResult)
+      setCodes(codesData)
+    })()
+  },[])
 
   return(
     <>
@@ -39,7 +42,7 @@ const SubscriptionsPage:FC = () => {
             </SubscriptionsHeader>
             <Subscribes subscribes={subscribes} codes={codes}/>
           </SubscriptionsSection>
-          : router.push ("/")
+          : homeRouter()
       }
     </>
   )

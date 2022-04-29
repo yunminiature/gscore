@@ -5,13 +5,28 @@ import PersonalForm from "../../components/Settings/PersonalForm";
 import PasswordForm from "../../components/Settings/PasswordForm";
 import store from "../../store";
 import {User} from "../../store/User/types";
+import {useRouter} from "next/router";
 
 export const enum settingStateTypes {
   PERSONAL = "PERSONAL",
   PASSWORD = "PASSWORD"
 }
 
-const Settings:FC<{data:User}> = (data) => {
+export async function getServerSideProps(){
+  const data = await store.getState().user
+  return {
+    props: {
+      data
+    }
+  }
+}
+
+const Settings:FC<{data:User}> = ({data}) => {
+
+  const router = useRouter();
+  const homeRouter = () => {
+    router.push ("/")
+  }
 
   const [settingState, setSettingState] = useState(settingStateTypes.PERSONAL)
   const handleSettingState = (state:settingStateTypes) => {
@@ -21,36 +36,34 @@ const Settings:FC<{data:User}> = (data) => {
   }
 
   const settingStateMapping = {
-    PERSONAL: <PersonalForm {...data.data}/>,
+    PERSONAL: <PersonalForm {...data}/>,
     PASSWORD: <PasswordForm/>
   }
 
   return(
-    <SettingsSection>
-      <SettingsTitle>Settings</SettingsTitle>
-      <SettingsNavBar>
-        <SettingsNavItem state={(settingState===settingStateTypes.PERSONAL)} onClick={handleSettingState(settingStateTypes.PERSONAL)}>
-          <p>Personal info</p>
-          <hr/>
-        </SettingsNavItem>
-        <SettingsNavItem state={(settingState===settingStateTypes.PASSWORD)} onClick={handleSettingState(settingStateTypes.PASSWORD)}>
-          <p>Change password</p>
-          <hr/>
-        </SettingsNavItem>
-        <SettingsNavHr/>
-      </SettingsNavBar>
-      {settingStateMapping[settingState]}
-    </SettingsSection>
-  )
-}
+    <>
+      {data.token
+        ?
+        <SettingsSection>
+          <SettingsTitle>Settings</SettingsTitle>
+          <SettingsNavBar>
+            <SettingsNavItem state={(settingState===settingStateTypes.PERSONAL)} onClick={handleSettingState(settingStateTypes.PERSONAL)}>
+              <p>Personal info</p>
+              <hr/>
+            </SettingsNavItem>
+            <SettingsNavItem state={(settingState===settingStateTypes.PASSWORD)} onClick={handleSettingState(settingStateTypes.PASSWORD)}>
+              <p>Change password</p>
+              <hr/>
+            </SettingsNavItem>
+            <SettingsNavHr/>
+          </SettingsNavBar>
+          {settingStateMapping[settingState]}
+        </SettingsSection>
+        : homeRouter()
+      }
+    </>
 
-export async function getServerSideProps(){
-  const data = store.getState().user
-  return {
-    props: {
-      data
-    }
-  }
+  )
 }
 
 const SettingsSection = styled.section`

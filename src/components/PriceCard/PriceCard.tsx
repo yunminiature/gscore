@@ -7,7 +7,6 @@ import {addPackage} from "../../store/User/actions";
 import {СheckIcon} from "../../../public"
 import {DefaultButton} from "../../ui";
 import {Product} from "../../store/Products/types";
-
 const PriceCard:FC<Product> = ({id, sitesCount, name, prices}) =>{
 
   const dispatch = useAppDispatch()
@@ -46,14 +45,15 @@ const PriceCard:FC<Product> = ({id, sitesCount, name, prices}) =>{
   )
 }
 
-const Card = styled.li`
+export const Card = styled.li`
   width: 32%;
   min-width: 290px;
   padding: 40px 50px;
   border-radius: 12px;
   background-color: ${colors.neutral["700"]};
-
   margin-top: 50px;
+  transition: 0.3s;
+  
   hr{
     margin: 40px 0;
     border-top: 1px solid ${colors.neutral["500"]};
@@ -66,14 +66,15 @@ const Card = styled.li`
   }
 
   &:hover{
-    margin: 0;
-    background-color: ${colors.accent.primary};
+    margin: 0 !important;
+    background-color: ${colors.accent.primary} !important;
     hr{
-      border-top: 1px solid ${colors.neutral["100"]};
+      border-top: 1px solid ${colors.neutral["100"]} !important;
     }
     p{
-      color: ${colors.neutral["100"]};
+      color: ${colors.neutral["100"]} !important;
     }
+    transition: 0.3s;
   }
   
   button{
