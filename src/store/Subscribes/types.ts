@@ -1,7 +1,12 @@
 export const enum SubscribeStatus {
   ACTIVE = "ACTIVE",
   UNPAID = "UNPAID",
-  CANCELED = "CANCELED"
+  CANCELED = "CANCELED",
+}
+
+export interface ChangeProductDto{
+  productId: number,
+  subscribeId: number
 }
 
 export interface SubscribeDto{

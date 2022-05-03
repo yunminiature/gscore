@@ -1,19 +1,32 @@
-import {FC, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import styled from "styled-components";
 import {SubscribeDto} from "../../../store/Subscribes/types";
 import SubscribeCard from "../SubscribeCard";
 import {colors} from "../../../styles/colors";
-import {Arrow} from "../../../../public"
+import {Arrow, CloseIcon} from "../../../../public"
 import Codes from "../Codes";
 import {DefaultButton} from "../../../ui";
-import {CodeDto} from "../../../store/Codes/types";
+import {useRouter} from "next/router";
+import {useAppDispatch} from "../../../store";
+import {addCurrentSubscribe} from "../../../store/User/actions";
+import {fetchSubscribes} from "../../../store/Subscribes/thunks";
+import {unwrapResult} from "@reduxjs/toolkit";
 
-interface SubscribesProps {
-  subscribes: SubscribeDto[],
-  codes: CodeDto[]
-}
+const Subscribes:FC = () => {
 
-const Subscribes:FC<SubscribesProps> = ({subscribes, codes}) => {
+  const dispatch = useAppDispatch()
+  const [subscribes, setSubscribes] = useState<SubscribeDto[]>([])
+  const [isLoading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true);
+    dispatch(fetchSubscribes())
+        .then(unwrapResult)
+        .then ((result) => {
+          setSubscribes(result);
+          setLoading(false);
+        })
+  },[])
 
   const [currentCard, setCurrentCard] = useState(1)
   const [viewCard, setViewCard] = useState(0)
@@ -21,22 +34,54 @@ const Subscribes:FC<SubscribesProps> = ({subscribes, codes}) => {
     setViewCard(id)
   }
 
+  const router = useRouter();
+  const handleClick = () => {
+    dispatch(addCurrentSubscribe(viewCard))
+    router.push("/subscriptions/change-subscription")
+  }
+
+
+  const [touchPosition, setTouchPosition] = useState<number|null>()
+  const handleTouchStart = (event:React.TouchEvent) => {
+    const touchDown = event.touches[0].clientX
+    setTouchPosition(touchDown)
+  }
+  const handleTouchMove = (event:React.TouchEvent) => {
+    if (touchPosition !== null && touchPosition !== undefined) {
+      const currentTouch = event.touches[0].clientX;
+      const diff = touchPosition - currentTouch;
+
+      (diff > 5 && currentCard < subscribes.length) && setCurrentCard(currentCard+1);
+      (diff <-5 && currentCard > 1) && setCurrentCard(currentCard-1)
+
+      setTouchPosition(null)
+    }
+    else return
+  }
+
+  const mq = window.matchMedia('(max-width: 321px)')
+
   return(
     <>
-      {!subscribes?.length
+      <SubscriptionsHeader>
+        <h1>My subscriptions</h1>
+        {viewCard!==0 && <DefaultButton type="button" theme={mq.matches ? "secondary" : "text"} value="Upgrade" onClick={handleClick}/>}
+      </SubscriptionsHeader>
+      {(!subscribes?.length || isLoading)
         ?
         <EmptySubscriptions>
+          <div><CloseIcon/></div>
           <h3>No active subscriptions</h3>
           <p>You can subscribe right now by clicking on the button below</p>
-          <DefaultButton type="button" theme="primary" value="Get Gscore"/>
+          <DefaultButton type="button" theme="primary" value="Get Gscore" onClick={() => {router.push("/")}}/>
         </EmptySubscriptions>
         :
         <>
           <SubscriptionsSlider position={currentCard}>
             <ul>
-              {subscribes.map((subscribe: SubscribeDto, index) => {
-                return <SubscribeCard key={subscribe.id} {...subscribe} isActive={(index + 1) === currentCard} handleViewCard={handleViewCard}/>
-              })}
+                {subscribes.map((subscribe, index) => {
+                  return <SubscribeCard key={subscribe.id} {...subscribe} isActive={(index + 1) === currentCard} handleViewCard={handleViewCard} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}/>
+                })}
             </ul>
           </SubscriptionsSlider>
           <SubscriptionsSliderNav state={{currentCard, countCard: subscribes.length}}>
@@ -53,13 +98,74 @@ const Subscribes:FC<SubscribesProps> = ({subscribes, codes}) => {
             </SubscriptionsSliderBtn>
           </SubscriptionsSliderNav>
         </>}
-      <Codes subscribeId={viewCard} codes={codes}/>
+      <Codes subscribeId={viewCard}/>
     </>
   )
 }
 
+const SubscriptionsHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  h1{
+    line-height: 64px;
+    font-size: 54px;
+    font-weight: 700;
+
+    @media (max-width: 426px) {
+      line-height: 40px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+  }
+  
+  button{
+    min-width: 150px;
+  }
+`
 
 const EmptySubscriptions = styled.div`
+  display: flex;
+  margin: 200px 0 0;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  
+  h3{
+    line-height: 40px;
+    font-size: 28px;
+    font-weight: 700;
+  }
+  p{
+    margin: 0;
+    max-width: 430px;
+    line-height: 30px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  div{
+    padding: 39px;
+    background-color: ${colors.neutral["600"]};
+    border-radius: 50px;
+  }
+  button{
+    margin: 32px 0 0;
+    width: 164px;
+  }
+  
+  @media (max-width: 426px) {
+    margin: 80px 0 0;
+    h3{
+      line-height: 30px;
+      font-size: 22px;
+    }
+    p{
+      margin: 0;
+      line-height: 20px;
+      font-size: 16px;
+    }
+  }
 `
 
 const SubscriptionsSlider = styled.div<{position: number}>`
@@ -69,6 +175,15 @@ const SubscriptionsSlider = styled.div<{position: number}>`
     display: flex;
     position: absolute;
     left: ${props => props.position && `calc((1 - ${props.position})*648px)`};
+    transition: 1s;
+
+    @media (max-width: 426px) {
+      left: ${props => props.position && `calc((1 - ${props.position})*332px)`};
+    }
+
+    @media (max-width: 321px) {
+      left: ${props => props.position && `calc((1 - ${props.position})*272px)`};
+    }
   }
 `
 const SubscriptionsSliderNav = styled.div<{state:{currentCard: number, countCard:number}}>`
@@ -106,6 +221,14 @@ const SubscriptionsSliderNav = styled.div<{state:{currentCard: number, countCard
     p{
       width: 100%;
       text-align: center;
+    }
+    @media (max-width: 321px) {
+      margin-top: 300px;
+      p{
+        width: 100%;
+        text-align: center;
+        line-height: 22px;
+        font-size: 18px;
     }
   }
 `

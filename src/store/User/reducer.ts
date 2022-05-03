@@ -6,6 +6,7 @@ import {
   UserDto
 } from './types';
 import {
+  addCurrentSubscribe,
   addPackage,
   signOutAction
 } from './actions'
@@ -46,6 +47,10 @@ export const updateDataAsyncAction = createAsyncThunk(
 const userReducer = createReducer<User>(initialState, {
   [addPackage.type]: (state, action: PayloadAction<number>) => {
     state.userPackage = action.payload
+  },
+
+  [addCurrentSubscribe.type]: (state, action: PayloadAction<number>) => {
+    state.currentSubscribe = action.payload
   },
 
   [signInAsyncAction.pending.type]: (state) => {

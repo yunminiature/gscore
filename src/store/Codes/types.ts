@@ -4,10 +4,18 @@ export const enum CodeStatus {
   HOLD = "HOLD"
 }
 
+export interface ManageCodesDto{
+  codesIds: Array <number>,
+  subscribeId: number
+}
+
 export interface CodeDto{
   id: number,
   code: string,
   origin: string,
   status: CodeStatus,
-  subscribeId: number
+  subscribeId: number,
+  subscribe:{
+    productId: number
+  }
 }

@@ -10,9 +10,11 @@ import {fetchProducts} from "../../../store/Products/reducer";
 interface SubscribeCardProps extends SubscribeDto{
   isActive: boolean;
   handleViewCard: (id:number) => void;
+  onTouchStart: (event:React.TouchEvent) => void,
+  onTouchMove: (event:React.TouchEvent) => void
 }
 
-const SubscribeCard:FC<SubscribeCardProps> = ({id, productId, currentPeriodEnd, status, isActive, handleViewCard}) => {
+const SubscribeCard:FC<SubscribeCardProps> = ({id, productId, currentPeriodEnd, status, isActive, handleViewCard, onTouchStart, onTouchMove}) => {
 
   const dispatch = useAppDispatch()
   useEffect(() => {
@@ -25,8 +27,10 @@ const SubscribeCard:FC<SubscribeCardProps> = ({id, productId, currentPeriodEnd, 
 
   const date = new Date(+currentPeriodEnd * 1000)
 
+  const mq = window.matchMedia('(max-width: 321px)')
+
   return(
-    <Subscribe state={isActive}>
+    <Subscribe state={isActive} onTouchStart={onTouchStart} onTouchMove={onTouchMove}>
       <SubscribeHeader state={status}>
         <h3>Gscore</h3>
         <p>{status}</p>
@@ -42,7 +46,7 @@ const SubscribeCard:FC<SubscribeCardProps> = ({id, productId, currentPeriodEnd, 
 
         <SubscribeDate>valid until {date.toLocaleString().split(",")[0]}</SubscribeDate>
 
-        <DefaultButton type="button" theme="secondary" value="View" onClick={() => handleViewCard(id)}/>
+        <DefaultButton type="button" theme={mq.matches ? "primary" : "secondary"} value="View" onClick={() => handleViewCard(id)}/>
       </SubscribeBody>
     </Subscribe>
   )
@@ -68,6 +72,10 @@ const Subscribe = styled.div<{state:boolean}>`
     margin: 0 12px 0 0;
     width: 320px;
   }
+  @media (max-width: 321px) {
+    margin: 0 12px 0 0;
+    width: 260px;
+  }
 `
 const SubscribeHeader = styled.div<{state:SubscribeStatus}>`
   padding: 32px;
@@ -92,6 +100,14 @@ const SubscribeHeader = styled.div<{state:SubscribeStatus}>`
       font-weight: 600;
     }
   }
+
+  @media (max-width: 321px) {
+    h3, p{
+      line-height: 20px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
 `
 const SubscribeBody = styled.div`
   padding: 32px;
@@ -112,7 +128,7 @@ const SubscribeDescriptions = styled.div`
 
   @media (max-width: 426px) {
     p{
-      line-height: 30px;
+      line-height: 24px;
       font-size: 18px;
       font-weight: 500;
     }

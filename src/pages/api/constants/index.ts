@@ -9,7 +9,10 @@ export enum PATHS {
   GET_PRODUCTS = "products",
 
   GET_SUBSCRIBES = "subscribe/self",
+  CHANGE_PRODUCT = "subscribe/change-product",
   BUY_SUBSCRIBE = "payments/buy",
 
-  GET_CODES = "code/self"
+  GET_CODES = "code/self",
+  ACTIVATE_CODE = "code/activate",
+  MANAGE_CODES = "code/manage"
 }

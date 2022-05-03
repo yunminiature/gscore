@@ -8,23 +8,23 @@ interface DefaultCheckboxProps extends InputHTMLAttributes<HTMLInputElement>{
   handleChange: () => void
 }
 
-const DefaultCheckbox:FC<DefaultCheckboxProps> = ({isChecked, handleChange}) => {
+const DefaultCheckbox:FC<DefaultCheckboxProps> = ({isChecked, handleChange, disabled}) => {
 
 
   return(
-    <Label isChecked={isChecked}>
-      <HiddenCheckbox type="checkbox" onChange={handleChange}/>
-      <StyledCheckbox isChecked={isChecked}>
+    <Label isChecked={isChecked} isDisabled={disabled}>
+      <HiddenCheckbox type="checkbox" onChange={handleChange} disabled={disabled}/>
+      <StyledCheckbox isChecked={isChecked} isDisabled={disabled}>
         {isChecked && <CheckBox/>}
       </StyledCheckbox>
     </Label>
   )
 }
 
-const Label = styled.label<{isChecked:boolean}>`
+const Label = styled.label<{isChecked:boolean, isDisabled: boolean|undefined}>`
   &:hover{
     span{
-      box-shadow: 0 0 0 4px ${props => props.isChecked ? "rgba(252, 88, 66, 0.3)" : "rgba(255, 255, 255, 0.3)"};
+      box-shadow: ${props => !props.isDisabled && `0 0 0 4px ${props.isChecked ? "rgba(252, 88, 66, 0.3)" : "rgba(255, 255, 255, 0.3)"}`};
     }
   }
 `
@@ -39,7 +39,7 @@ const HiddenCheckbox = styled.input`
   width: 1px;
 `
 
-const StyledCheckbox = styled.span<{isChecked:boolean}>`
+const StyledCheckbox = styled.span<{isChecked:boolean, isDisabled: boolean|undefined}>`
   display: inline-block;
   height: 28px;
   width: 28px;
@@ -49,15 +49,14 @@ const StyledCheckbox = styled.span<{isChecked:boolean}>`
   border-radius: 7px;
   background-color: ${props => props.isChecked ? colors.accent.primary : colors.neutral["100"]};
 
-  &:hover:enabled{
+  cursor: ${props => props.isDisabled ? "default" : "pointer" };
+  opacity: ${props => props.isDisabled ? "0.6" : "1" };
+  
+
+  &:hover{
     background-color: ${props => props.isChecked ? colors.red["400"] : colors.neutral["400"]};
     border: 1px solid ${props => props.isChecked ? colors.red["400"] : colors.neutral["400"]};
-  }
-
-  &:disabled{
-    cursor: default;
-    opacity: 0.6;
-  }
+  }  
 `
 
 export default DefaultCheckbox

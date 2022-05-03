@@ -2,18 +2,32 @@ import {FC} from "react"
 import {useRouter} from "next/router";
 import styled from "styled-components"
 import {colors} from "../../styles/colors";
-import {useAppDispatch} from "../../store";
-import {addPackage} from "../../store/User/actions";
+import {useAppDispatch, useAppSelector} from "../../store";
+import {addCurrentSubscribe, addPackage} from "../../store/User/actions";
 import {СheckIcon} from "../../../public"
 import {DefaultButton} from "../../ui";
 import {Product} from "../../store/Products/types";
+import {changeSubscribe} from "../../store/Subscribes/thunks";
+import {selectCurrentSubscribe} from "../../store/User/selectors";
+
 const PriceCard:FC<Product> = ({id, sitesCount, name, prices}) =>{
 
   const dispatch = useAppDispatch()
   const router = useRouter();
+
+  const subscribeId = useAppSelector(selectCurrentSubscribe)
+
   const handleClick = () => {
-    dispatch(addPackage(id))
-    router.push ("/start")
+    if (subscribeId) {
+      dispatch(changeSubscribe({productId: id, subscribeId}))
+      dispatch(addCurrentSubscribe(0))
+      router.push ("/subscriptions")
+    }
+    else {
+      dispatch(addPackage(id))
+      router.push ("/start")
+    }
+
   }
 
   return(

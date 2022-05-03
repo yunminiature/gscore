@@ -191,6 +191,7 @@ const SidePopUp = styled.div`
   height: 100vh;
   width: 50vh;
   background-color: ${colors.neutral["700"]};
+  z-index: 1;
   
 `
 const NavBar = styled.div`

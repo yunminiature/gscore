@@ -1,6 +1,7 @@
 export const enum ActionTypes {
   ADD_PACKAGE = "ADD_PACKAGE",
-  SIGN_OUT = "SIGN_OUT"
+  SIGN_OUT = "SIGN_OUT",
+  ADD_SUBSCRIBE ="ADD_SUBSCRIBE"
 }
 
 export interface SignInDto {
@@ -26,6 +27,7 @@ export interface UserDto{
 export interface User {
   token: string,
   userPackage: number,
+  currentSubscribe: number
   user: UserDto,
   signInLoading?: boolean,
   updateDataLoading?: boolean,

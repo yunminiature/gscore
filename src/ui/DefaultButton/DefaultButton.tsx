@@ -29,6 +29,15 @@ const DefaultButton:FC<DefaultButtonProps> = ({type, theme, onClick, disabled, v
           hovertext: colors.red["400"],
           focus: "rgba(255, 255, 255, 0.3)",
           disabled: "0.6"
+        };
+      case "text":
+        return {
+          color: colors.accent.primary,
+          background: "transparent",
+          hover: "transparent",
+          hovertext: colors.red["400"],
+          focus: "transparent",
+          disabled: "0.6"
         }
     }
   }
