@@ -8,7 +8,7 @@ import Start from "../../components/Start/Start";
 import store, {useAppSelector} from "../../store";
 import {Product} from "../../store/Products/types";
 import {fetchProducts} from "../../store/Products/reducer";
-import {selectUser} from "../../store/User/selectors";
+import {selectToken, selectUser} from "../../store/User/selectors";
 import {unwrapResult} from "@reduxjs/toolkit";
 
 export const enum FormStageTypes {
@@ -29,7 +29,7 @@ export const getServerSideProps = async () => {
 
 const StartPage:FC<{data: Product[]}> = ({data}) => {
 
-  const {token} = useAppSelector(selectUser)
+  const token = useAppSelector(selectToken)
 
   const initialFormStage = token ? FormStageTypes.CHECKOUT : FormStageTypes.CREATE_ACCOUNT
   const [formStage, setFormStage] = useState(initialFormStage)

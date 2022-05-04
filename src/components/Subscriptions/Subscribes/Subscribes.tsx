@@ -65,7 +65,7 @@ const Subscribes:FC = () => {
     <>
       <SubscriptionsHeader>
         <h1>My subscriptions</h1>
-        {viewCard!==0 && <DefaultButton type="button" theme={mq.matches ? "secondary" : "text"} value="Upgrade" onClick={handleClick}/>}
+        {viewCard!==0 && <DefaultButton type="button" theme={mq.matches ? "text" : "secondary"} value="Upgrade" onClick={handleClick}/>}
       </SubscriptionsHeader>
       {(!subscribes?.length || isLoading)
         ?

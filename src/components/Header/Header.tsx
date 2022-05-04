@@ -13,7 +13,6 @@ import Link from "next/link";
 import {colors} from "../../styles/colors";
 import {signOutAction} from "../../store/User/actions";
 
-
 const Header:FC = () => {
 
   const {

@@ -3,9 +3,10 @@ import styled from "styled-components";
 import {colors} from "../../styles/colors";
 import PersonalForm from "../../components/Settings/PersonalForm";
 import PasswordForm from "../../components/Settings/PasswordForm";
-import store from "../../store";
+import store, {useAppSelector} from "../../store";
 import {User} from "../../store/User/types";
 import {useRouter} from "next/router";
+import {selectToken} from "../../store/User/selectors";
 
 export const enum settingStateTypes {
   PERSONAL = "PERSONAL",
@@ -40,9 +41,11 @@ const Settings:FC<{data:User}> = ({data}) => {
     PASSWORD: <PasswordForm/>
   }
 
+  const token = useAppSelector(selectToken)
+
   return(
     <>
-      {data.token
+      {token
         ?
         <SettingsSection>
           <SettingsTitle>Settings</SettingsTitle>

@@ -38,7 +38,7 @@ const Codes:FC<CodesProps> = ({subscribeId}) => {
   }
 
   const [codesToManage, setCodesToManage] = useState<number[]>([])
-  const availableCodesToManage = products.find(
+  const availableCodesToManage = products?.find(
     product =>
       (product.id === codes.find(
         (code) =>

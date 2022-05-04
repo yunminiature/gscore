@@ -50,12 +50,10 @@ const LogIn:FC<LogInProps> = ({onStageChange}) => {
           maxAge: 3600,
           sameSite: true,
         })
+        onStageChange(FormStageTypes.CHECKOUT)
       })
       .catch(() => {
         reset()
-      })
-      .finally(() => {
-        onStageChange(FormStageTypes.CHECKOUT)
       })
   }
 
